@@ -2,6 +2,56 @@ from torchvision import datasets
 import torchvision.transforms as transforms
 import torch
 
+import os
+from PIL import Image 
+
+class images_from_csv:
+    """
+    Custom class for loading labeled image data from a CSV file for pytorch
+    """
+
+    def __init__(self, data_root, df, path_col, label_col, transforms=None):
+
+        self.img_dir = data_root
+        # self.txt_path = txt_path
+        self.img_names = df[path_col].values
+        self.labels = df[label_col].values
+        self.transform = transforms
+
+    def __getitem__(self, index):
+        img = Image.open(os.path.join(self.img_dir,
+                                        self.img_names[index]))
+        
+        if self.transform is not None:
+            img = self.transform(img)
+        
+        label = self.labels[index]
+        return img, label
+
+    def __len__(self):
+        return self.labels.shape[0]
+
+
+# def imagess_from_csv(data_root, df, path_col, label_col, transforms=None):
+#     """
+#     """
+#     # df = pd.read_csv(txt_path, sep=" ", index_col=0)
+#     # img_dir = img_dir
+#     # txt_path = txt_path
+
+#     img_names = df[path_col].values
+#     labels = df[label_col].values
+
+#     def __getitem__(self, index):
+#         img = Image.open(os.path.join(data_root,
+#                                       img_names[index]))
+        
+#         if self.transform is not None:
+#             img = self.transform(img)
+        
+#         label = labels[index]
+#         return img, label
+
 def image_transforms(img_size):
     """
     Parmerters:
@@ -33,8 +83,7 @@ def images_from_dir(data_dir, img_transforms):
     return img_data
 
 
-def images_from_csv():
-    pass
+
 
 
 def image_data_loader(data,batch_size,num_workers,shuffle=False):
@@ -65,4 +114,24 @@ def dir_loader_stack(data_dir,img_size,batch_size,num_workers,shuffle=False):
                         batch_size,
                         num_workers,
                         shuffle)
+    return data
+
+
+def csv_loader_stack(data_root,df, path_col, label_col,
+                        img_size,batch_size,num_workers, shuffle=False):
+    """
+    Parmerters:
+
+    Return:
+    """
+    data = image_data_loader(
+            images_from_csv(data_root,
+            df,
+            path_col,
+            label_col,
+            image_transforms(img_size)),
+            batch_size,
+            num_workers,
+            shuffle=shuffle)
+
     return data
