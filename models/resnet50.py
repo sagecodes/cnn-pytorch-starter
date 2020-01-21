@@ -39,9 +39,13 @@ class Resnet50_pretrained:
         '''Save model'''
         pass
 
-    def load(self):
+    def load(self, model_path):
         '''load model weights'''
-        pass
+
+        self.model.load_state_dict(torch.load(model_path))
+        self.model.eval()
+
+        return self.model
 
     def log(self):
         '''Training & Validation logs '''

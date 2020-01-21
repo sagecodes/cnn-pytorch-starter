@@ -122,6 +122,9 @@ def csv_loader_stack(data_root,df, path_col, label_col,
 
 
 def image_plot(loader):
+    """
+    
+    """
             testX_sanity, testY_sanity = next(iter(loader))
 
             L = 3
