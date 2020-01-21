@@ -3,7 +3,11 @@ import torchvision.transforms as transforms
 import torch
 
 import os
-from PIL import Image 
+from PIL import Image
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt              
+
 
 class images_from_csv:
     """
@@ -31,26 +35,6 @@ class images_from_csv:
     def __len__(self):
         return self.labels.shape[0]
 
-
-# def imagess_from_csv(data_root, df, path_col, label_col, transforms=None):
-#     """
-#     """
-#     # df = pd.read_csv(txt_path, sep=" ", index_col=0)
-#     # img_dir = img_dir
-#     # txt_path = txt_path
-
-#     img_names = df[path_col].values
-#     labels = df[label_col].values
-
-#     def __getitem__(self, index):
-#         img = Image.open(os.path.join(data_root,
-#                                       img_names[index]))
-        
-#         if self.transform is not None:
-#             img = self.transform(img)
-        
-#         label = labels[index]
-#         return img, label
 
 def image_transforms(img_size):
     """
@@ -135,3 +119,29 @@ def csv_loader_stack(data_root,df, path_col, label_col,
             shuffle=shuffle)
 
     return data
+
+
+def image_plot(loader):
+            testX_sanity, testY_sanity = next(iter(loader))
+
+            L = 3
+            W = 3
+
+            fig, axes = plt.subplots(L,W,figsize=(12,12))
+            axes = axes.ravel()
+            
+            mean = (0.485, 0.456, 0.406)
+            std = (0.229, 0.224, 0.225)
+            norm = transforms.Normalize(mean=[-0.485/0.229, -0.456/0.224, -0.406/0.225],
+                                        std=[1/0.229, 1/0.224, 1/0.255])
+            
+
+            for i in np.arange(0, L*W):
+                img_norm = norm(testX_sanity[i])
+                axes[i].imshow(img_norm.permute(1, 2, 0))
+
+                axes[i].set_title('{}'.format(testY_sanity[i]))
+                axes[i].axis('off')
+            plt.subplots_adjust(hspace = 0)
+            plt.show()
+            plt.close()
