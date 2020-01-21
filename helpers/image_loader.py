@@ -129,13 +129,9 @@ def image_plot(loader):
 
             fig, axes = plt.subplots(L,W,figsize=(12,12))
             axes = axes.ravel()
-            
-            mean = (0.485, 0.456, 0.406)
-            std = (0.229, 0.224, 0.225)
             norm = transforms.Normalize(mean=[-0.485/0.229, -0.456/0.224, -0.406/0.225],
                                         std=[1/0.229, 1/0.224, 1/0.255])
             
-
             for i in np.arange(0, L*W):
                 img_norm = norm(testX_sanity[i])
                 axes[i].imshow(img_norm.permute(1, 2, 0))
