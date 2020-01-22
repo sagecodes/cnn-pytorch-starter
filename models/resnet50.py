@@ -35,9 +35,9 @@ class Resnet50_pretrained:
         return self.model
 
 
-    def save(self):
+    def save(self, save_path):
         '''Save model'''
-        pass
+        torch.save(self.model.state_dict(), save_path)
 
     def load(self, model_path):
         '''load model weights'''

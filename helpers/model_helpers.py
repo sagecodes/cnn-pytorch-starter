@@ -90,7 +90,7 @@ def train(model, n_epochs, loaders, optimizer,
             print(('SAVE MODEL: val_loss decrease ({:.6f})'.format(valid_loss)))
             valid_loss_min = valid_loss
     
-    history = train_output
+    self.history = train_output
 
     # model.log(history)
     # model.load()
