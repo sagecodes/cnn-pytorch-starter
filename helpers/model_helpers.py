@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch
 import torch.optim as optim
 import torchvision.transforms as transforms
-
+import torch.nn.functional as F
 
 import numpy as np
 from PIL import ImageFile

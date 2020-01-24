@@ -24,7 +24,8 @@ class images_from_csv:
 
     def __getitem__(self, index):
         img = Image.open(os.path.join(self.img_dir,
-                                        self.img_names[index]))
+                                        self.img_names[index])).convert('RGB')
+        
         
         if self.transform is not None:
             img = self.transform(img)
