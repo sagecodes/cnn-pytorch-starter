@@ -125,22 +125,22 @@ def image_plot(loader):
     """
     
     """
-            testX_sanity, testY_sanity = next(iter(loader))
+    testX_sanity, testY_sanity = next(iter(loader))
 
-            L = 3
-            W = 3
+    L = 3
+    W = 3
 
-            fig, axes = plt.subplots(L,W,figsize=(12,12))
-            axes = axes.ravel()
-            norm = transforms.Normalize(mean=[-0.485/0.229, -0.456/0.224, -0.406/0.225],
-                                        std=[1/0.229, 1/0.224, 1/0.255])
-            
-            for i in np.arange(0, L*W):
-                img_norm = norm(testX_sanity[i])
-                axes[i].imshow(img_norm.permute(1, 2, 0))
+    fig, axes = plt.subplots(L,W,figsize=(12,12))
+    axes = axes.ravel()
+    norm = transforms.Normalize(mean=[-0.485/0.229, -0.456/0.224, -0.406/0.225],
+                                std=[1/0.229, 1/0.224, 1/0.255])
+    
+    for i in np.arange(0, L*W):
+        img_norm = norm(testX_sanity[i])
+        axes[i].imshow(img_norm.permute(1, 2, 0))
 
-                axes[i].set_title('{}'.format(testY_sanity[i]))
-                axes[i].axis('off')
-            plt.subplots_adjust(hspace = 0)
-            plt.show()
-            plt.close()
+        axes[i].set_title('{}'.format(testY_sanity[i]))
+        axes[i].axis('off')
+    plt.subplots_adjust(hspace = 0)
+    plt.show()
+    plt.close()

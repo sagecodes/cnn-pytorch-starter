@@ -28,6 +28,8 @@ def train(model, n_epochs, loaders, optimizer,
         # initialize variables to monitor training and validation loss
         train_loss = 0.0
         valid_loss = 0.0
+        num_correct = 0       
+        num_examples = 0
     
         # train the model
         model.train()
@@ -52,19 +54,27 @@ def train(model, n_epochs, loaders, optimizer,
             
             ## find the loss and update the model parameters accordingly
             train_loss = train_loss + ((1 / (batch_idx + 1)) * (loss.data - train_loss))
-            
+
+
+            correct = torch.eq(torch.max(F.softmax(output), dim=1)[1],
+                                        target).view(-1)
+            num_correct += torch.sum(correct).item()
+            num_examples += correct.shape[0]
+
             # Output info in jupyter notebook
             
             if verbose:
                 print('Epoch #{}, Batch #{} train_loss: {:.6f}'.format(epoch, batch_idx + 1, train_loss))
             else:
                 clear_output(wait=True)
-                display('Epoch #{}, Batch #{} train_loss: {:.6f}'.format(epoch, batch_idx + 1, train_loss))
+                display('Epoch #{}, Batch #{} train_loss: {:.6f} train_acc{:.6}'.format(epoch, batch_idx + 1, train_loss, num_correct / num_examples))
             
 
         ######################    
         # validate the model #
         ######################
+        num_correct = 0       
+        num_examples = 0
         model.eval()
         for batch_idx, (data, target) in enumerate(loaders['valid']):
             
@@ -77,6 +87,10 @@ def train(model, n_epochs, loaders, optimizer,
             loss = criterion(output, target)
             valid_loss = valid_loss + ((1 / (batch_idx + 1)) * (loss.data - valid_loss))
             
+            correct = torch.eq(torch.max(F.softmax(output), dim=1)[1],
+                                        target).view(-1)
+            num_correct += torch.sum(correct).item()
+            num_examples += correct.shape[0]
         # append training/validation output to output list 
         train_output.append('Epoch: {} train_loss: {:.6f} val_loss: {:.6f}'.format(
             epoch, 
