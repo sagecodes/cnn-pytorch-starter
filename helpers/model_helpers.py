@@ -16,7 +16,16 @@ from IPython.display import display, clear_output
 def train(model, n_epochs, loaders, optimizer,
                     criterion, device, save_path, verbose=False):
 
-    """returns trained model"""    
+    """
+    params:
+    model, n_epochs, loaders, optimizer,
+    criterion, device, save_path, verbose=False
+    
+    Trains model passed in as arg
+
+    Saves model if loss decreases
+    
+    """    
     train_output = []
 
     model = model.to(device)
@@ -89,6 +98,7 @@ def train(model, n_epochs, loaders, optimizer,
             
             correct = torch.eq(torch.max(F.softmax(output), dim=1)[1],
                                         target).view(-1)
+
             num_correct += torch.sum(correct).item()
             num_examples += correct.shape[0]
             # append training/validation output to output list 
@@ -109,7 +119,7 @@ def train(model, n_epochs, loaders, optimizer,
     # model.log(history)
     # model.load()
     # return trained model
-    return model
+    # return model
 
 
 def predict(model, img_path, device, verbose=False):
