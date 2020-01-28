@@ -9,6 +9,8 @@ import numpy as np
 from PIL import ImageFile
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 from PIL import Image
+import matplotlib.pyplot as plt                        
+
 
 from IPython.display import display, clear_output
 
@@ -125,6 +127,29 @@ def train(model, n_epochs, loaders, optimizer,
         history['val_acc'].append(valid_acc)
     
     return history
+
+def plot_train_history(history,num_epochs):
+        # plot the training loss and accuracy
+        plt.style.use("ggplot")
+        plt.figure()
+        plt.plot(np.arange(0, num_epochs),
+                    history["train_loss"],
+                    label="train_loss")
+        plt.plot(np.arange(0, num_epochs),
+                    history["val_loss"],
+                    label="val_loss")
+        plt.plot(np.arange(0, num_epochs),
+                    history["train_acc"],
+                    label="train_acc")
+        plt.plot(np.arange(0, num_epochs),
+                    history["val_acc"],
+                    label="val_acc")
+        plt.title("Training Loss and Accuracy")
+        plt.xlabel("Epoch #")
+        plt.ylabel("Loss/Accuracy")
+        plt.legend()
+        plt.show()
+        plt.close()
 
 
 def predict(model, img_path, device, verbose=False):
