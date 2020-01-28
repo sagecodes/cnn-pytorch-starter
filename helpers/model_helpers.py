@@ -26,7 +26,11 @@ def train(model, n_epochs, loaders, optimizer,
     Saves model if loss decreases
     
     """    
-    train_output = []
+    history = {'train_loss':[],
+                'train_acc':[],
+                'val_loss':[],
+                'val_acc':[]
+                }
 
     model = model.to(device)
     
@@ -63,21 +67,19 @@ def train(model, n_epochs, loaders, optimizer,
             
             ## find the loss and update the model parameters accordingly
             train_loss = train_loss + ((1 / (batch_idx + 1)) * (loss.data - train_loss))
-
+            
 
             correct = torch.eq(torch.max(F.softmax(output), dim=1)[1],
                                         target).view(-1)
             num_correct += torch.sum(correct).item()
             num_examples += correct.shape[0]
 
-            # Output info in jupyter notebook
+            train_acc = num_correct / num_examples
+
+            # Print
             if batch_idx % 50 == 0:
-            # if verbose:
-                print('Epoch #{}, Batch #{} train_loss: {:.6f} train_acc: {:.6}'.format(epoch, batch_idx + 1, train_loss, num_correct / num_examples))
-            # else:
-            #     clear_output(wait=True)
-            #     display('Epoch #{}, Batch #{} train_loss: {:.6f} train_acc: {:.6}'.format(epoch, batch_idx + 1, train_loss, num_correct / num_examples))
-            
+                print('Epoch #{}, Batch #{} train_loss: {:.6f} train_acc: {:.6}'.format(epoch, batch_idx + 1, train_loss, train_acc))
+                        
 
         ######################    
         # validate the model #
@@ -96,30 +98,33 @@ def train(model, n_epochs, loaders, optimizer,
             loss = criterion(output, target)
             valid_loss = valid_loss + ((1 / (batch_idx + 1)) * (loss.data - valid_loss))
             
+
             correct = torch.eq(torch.max(F.softmax(output), dim=1)[1],
                                         target).view(-1)
 
             num_correct += torch.sum(correct).item()
             num_examples += correct.shape[0]
-            # append training/validation output to output list 
+            
+            valid_acc = num_correct / num_examples
+
             if batch_idx % 50 == 0:
                 print('Epoch: {} val_loss: {:.6f} val_acc: {:.6f}'.format(
                 epoch,
                 valid_loss,
-                num_correct / num_examples))
+                valid_acc))
         
         ## save the model if validation loss has decreased
         if valid_loss < valid_loss_min:
             torch.save(model.state_dict(), save_path)
-            print(('SAVE MODEL: val_loss decrease ({:.6f}) val_acc: {:.6f}'.format(valid_loss, num_correct / num_examples)))
+            print(('SAVE MODEL: val_loss decrease ({:.6f}) val_acc: {:.6f}'.format(valid_loss, valid_acc)))
             valid_loss_min = valid_loss
     
-    history = train_output
-
-    # model.log(history)
-    # model.load()
-    # return trained model
-    # return model
+        history['train_loss'].append(float(train_loss))
+        history['train_acc'].append(train_acc)
+        history['val_loss'].append(float(valid_loss))
+        history['val_acc'].append(valid_acc)
+    
+    return history
 
 
 def predict(model, img_path, device, verbose=False):
