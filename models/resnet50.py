@@ -26,13 +26,14 @@ class Resnet50_pretrained:
 
         self.model.fc = self.fc_out
         
-        
+
     # def forward(self):
     # No forward needed imported model
 
 
-    def save_model(self,save_path):
+    def save(self,save_path):
         '''Save model'''
+
         torch.save(self.model.state_dict(), save_path)
         print(f'Model saved at: {save_path}')
         
