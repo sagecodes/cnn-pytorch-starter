@@ -152,6 +152,7 @@ def plot_train_history(history,num_epochs):
         plt.close()
 
 
+
 def predict(model, img_path, device, verbose=False):
     # load the image and return the predicted breed
     

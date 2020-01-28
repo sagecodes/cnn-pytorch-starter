@@ -12,33 +12,30 @@ from PIL import Image
 
 class Resnet50_pretrained:
     
+    
     def __init__(self, num_classes):
+
         # self.device = device
         self.num_classes = num_classes
         self.model = models.resnet50(pretrained=True)
         self.fc_out = nn.Linear(2048, num_classes, bias=True)
-        
-    def build(self, verbose=False):
 
         # freeze model params for features
         for param in self.model.parameters():
             param.requires_grad = False
 
-        # set output layer to num classes
         self.model.fc = self.fc_out
-
-        if verbose:
-            print(self.model)
-
-        # self.model.to(self.device)
-
-        return self.model
+        
+        
+    # def forward(self):
+    # No forward needed imported model
 
 
-    def save(self, save_path):
+    def save_model(self,save_path):
         '''Save model'''
         torch.save(self.model.state_dict(), save_path)
-        pass
+        print(f'Model saved at: {save_path}')
+        
 
     def load(self, model_path, evals=False):
         '''load model weights'''
@@ -49,8 +46,3 @@ class Resnet50_pretrained:
             self.model.eval()
 
         return self.model
-
-
-    def log(self):
-        '''Training & Validation logs '''
-        pass
