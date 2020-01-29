@@ -145,3 +145,32 @@ def image_plot(loader):
     plt.subplots_adjust(hspace = 0)
     plt.show()
     plt.close()
+
+
+def val_train_split(df, split, verbose=False, seed=42, shuffle=True):
+    """
+    
+    """
+    
+    # set random seed
+    np.random.seed(seed)
+
+    if shuffle:
+        df = df.sample(frac=1)
+        
+    val, train = np.split(df, [int(split*len(df))])
+    
+    val = val.reset_index(drop=True)
+    train = train.reset_index(drop=True)
+    
+    print(f'Train Shape: {train.shape}')
+    print(f'Validation Shape: {val.shape}')
+    
+    if verbose:
+          print('Training DataFrame \n')
+          print(train)
+          print('\n-----------------------\n')
+          print('Validation DataFrame \n')
+          print(val)
+          
+    return train, val
