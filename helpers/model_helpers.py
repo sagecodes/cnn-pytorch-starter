@@ -11,7 +11,6 @@ ImageFile.LOAD_TRUNCATED_IMAGES = True
 from PIL import Image
 import matplotlib.pyplot as plt                        
 
-
 from IPython.display import display, clear_output
 
 
@@ -180,3 +179,10 @@ def predict(model, img_path, device, verbose=False):
     #                                             prediction))        
     # # return only highest prediction index
     return prediction
+
+
+def save(model, save_path):
+        '''Save model'''
+
+        torch.save(model.state_dict(), save_path)
+        print(f'Model saved at: {save_path}')
