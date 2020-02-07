@@ -6,6 +6,7 @@ import torchvision.transforms as transforms
 import torch.nn.functional as F
 
 import numpy as np
+import pandas as pd
 from PIL import ImageFile
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 from PIL import Image
@@ -150,6 +151,22 @@ def plot_train_history(history,num_epochs):
         plt.show()
         plt.close()
 
+
+def save_history_csv(history, save_path):
+    """
+    Docstring
+    """
+
+    df = pd.DataFrame(
+    {'train_loss': history["train_loss"],
+     'val_loss': history["val_loss"],
+     'train_acc': history["train_acc"],
+     'val_acc': history["val_acc"]
+    })
+
+    print(f"Saving file at {save_path}")
+
+    df.to_csv(save_path)
 
 
 def predict(model, img_path, device, verbose=False):

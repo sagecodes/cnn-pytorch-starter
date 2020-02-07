@@ -10,6 +10,7 @@ from PIL import ImageFile
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 from PIL import Image
 
+
 class Resnet50_pretrained:
     
     
@@ -30,12 +31,6 @@ class Resnet50_pretrained:
     # def forward(self):
     # No forward needed imported model
 
-
-    def save(self,save_path):
-        '''Save model'''
-
-        torch.save(self.model.state_dict(), save_path)
-        print(f'Model saved at: {save_path}')
         
 
     def load(self, model_path, evals=False):
@@ -47,3 +42,5 @@ class Resnet50_pretrained:
             self.model.eval()
 
         return self.model
+
+
