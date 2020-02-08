@@ -199,7 +199,23 @@ def predict(model, img_path, device, verbose=False):
 
 
 def save(model, save_path):
-        '''Save model'''
+        '''
+        This function saves a pytorch model using state_dict() method
+
+        Example:
+            save(res_model , 'test_save_method2.pt')
+
+        args:
+            model (pytorch_model): the model you would like to save
+            save_path (string): the path where you would like to save file. Including file name & extension.
+
+        output:
+            saves model with name passed in 'save_path'
+
+        TODO:
+            Check if model name already exsists & overwrite options`
+
+        '''
 
         torch.save(model.state_dict(), save_path)
         print(f'Model saved at: {save_path}')
