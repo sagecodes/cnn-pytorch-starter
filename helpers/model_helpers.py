@@ -154,7 +154,23 @@ def plot_train_history(history,num_epochs):
 
 def save_history_csv(history, save_path):
     """
-    Docstring
+    this function saves model training history as a csv file
+
+    example:
+        save_history_csv(history, 'train_hist.csv')
+
+    
+    args:
+        history (dict) : dictionary containing lists for train/val loss & accuracy
+                        needs the following key value pairs: train_loss, val_loss, train_acc, val_acc
+
+        save_path (string): the path where you would like to save file. Including file name & extension.
+
+
+    output:
+        saves training history with name passed in 'save_path'
+        prints 'Saving file at {save_path}'
+    
     """
 
     df = pd.DataFrame(
@@ -205,7 +221,7 @@ def save_model(model, save_path):
         Example use:
             save(res_model , 'test_save_method2.pt')
 
-        parameters:
+        args:
             model (pytorch_model): the model you would like to save
             save_path (string): the path where you would like to save file. Including file name & extension.
 
