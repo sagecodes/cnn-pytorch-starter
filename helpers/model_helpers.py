@@ -128,8 +128,25 @@ def train(model, n_epochs, loaders, optimizer,
     
     return history
 
-def plot_train_history(history,num_epochs):
-        # plot the training loss and accuracy
+def plot_train_history(history, num_epochs):
+    """
+    this function plots the training history as a line graph
+
+    example:
+        plot_train_history(history, 32)
+
+    
+    args:
+        history (dict) : dictionary containing lists for train/val loss & accuracy
+                        needs the following key value pairs: train_loss, val_loss, train_acc, val_acc
+
+        num_epochs (num): the number of epochs the model was trained on
+
+
+    TODO: 
+        - Get number of epocks from list length
+    
+    """
         plt.style.use("ggplot")
         plt.figure()
         plt.plot(np.arange(0, num_epochs),
