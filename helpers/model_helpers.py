@@ -138,7 +138,9 @@ def plot_train_history(history, num_epochs):
     
     args:
         history (dict) : dictionary containing lists for train/val loss & accuracy
-                        needs the following key value pairs: train_loss, val_loss, train_acc, val_acc
+                        expects the following key value pairs:
+                                train_loss (list), val_loss(list),
+                                train_acc(list), val_acc(list)
 
         num_epochs (num): the number of epochs the model was trained on
 
@@ -179,9 +181,12 @@ def save_history_csv(history, save_path):
     
     args:
         history (dict) : dictionary containing lists for train/val loss & accuracy
-                        needs the following key value pairs: train_loss, val_loss, train_acc, val_acc
+                        expects the following key value pairs:
+                                train_loss (list), val_loss(list),
+                                train_acc(list), val_acc(list)
 
-        save_path (string): the path where you would like to save file. Including file name & extension.
+        save_path (string): the path where you would like to save file.
+        Including file name & extension.
 
 
     output:
