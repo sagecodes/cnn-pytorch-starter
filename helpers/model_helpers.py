@@ -279,9 +279,9 @@ def load_model(model, load_path, evals=False):
             returns model with weights passed in from 'load_path' file
         '''
 
-        model.load_state_dict(torch.load(load_path))
+        model.model.load_state_dict(torch.load(load_path))
         
         if evals:
-            model.eval()
+            model.model.eval()
 
         return model
