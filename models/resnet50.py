@@ -31,16 +31,5 @@ class Resnet50_pretrained:
     # def forward(self):
     # No forward needed imported model
 
-        
-
-    def load(self, model_path, evals=False):
-        '''load model weights'''
-
-        self.model.load_state_dict(torch.load(model_path))
-        
-        if evals:
-            self.model.eval()
-
-        return self.model
 
 
