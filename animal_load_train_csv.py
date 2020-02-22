@@ -39,7 +39,6 @@ import torch.optim as optim
 import torch
 
 
-
 #%% 
 ##########################
 # Data Paths 
