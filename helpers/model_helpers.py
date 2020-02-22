@@ -241,7 +241,7 @@ def save_model(model, save_path):
         This function saves a pytorch model using state_dict() method
 
         Example use:
-            save(res_model , 'test_save_method2.pt')
+            save_model(res_model , 'test_save_method2.pt')
 
         args:
             model (pytorch_model): the model you would like to save
@@ -258,3 +258,30 @@ def save_model(model, save_path):
 
         torch.save(model.state_dict(), save_path)
         print(f'Model saved at: {save_path}')
+
+
+def load_model(model, load_path, evals=False):
+        '''
+        This function loads a pytorch model using load_state_dict() method 
+
+        Example use:
+            load_model(res_model , 'test_train.pt', True)
+
+        args:
+            model (pytorch_model): the model architecture you would like to load
+                weights into 
+            load_path (string): the path to the file you want to load. 
+                Including file name & extension.
+            evals (Boolean): decision for loading weights ready for prediction
+                or more trainin. True = prediction ready.
+
+        output:
+            returns model with weights passed in from 'load_path' file
+        '''
+
+        self.model.load_state_dict(torch.load(model_path))
+        
+        if evals:
+            self.model.eval()
+
+        return self.model
