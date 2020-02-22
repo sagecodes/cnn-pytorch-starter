@@ -146,29 +146,29 @@ def plot_train_history(history, num_epochs):
 
 
     TODO: 
-        - Get number of epocks from list length
+        - Get number of epochs from list length
     
     """
-        plt.style.use("ggplot")
-        plt.figure()
-        plt.plot(np.arange(0, num_epochs),
-                    history["train_loss"],
-                    label="train_loss")
-        plt.plot(np.arange(0, num_epochs),
-                    history["val_loss"],
-                    label="val_loss")
-        plt.plot(np.arange(0, num_epochs),
-                    history["train_acc"],
-                    label="train_acc")
-        plt.plot(np.arange(0, num_epochs),
-                    history["val_acc"],
-                    label="val_acc")
-        plt.title("Training Loss and Accuracy")
-        plt.xlabel("Epoch #")
-        plt.ylabel("Loss/Accuracy")
-        plt.legend()
-        plt.show()
-        plt.close()
+    plt.style.use("ggplot")
+    plt.figure()
+    plt.plot(np.arange(0, num_epochs),
+                history["train_loss"],
+                label="train_loss")
+    plt.plot(np.arange(0, num_epochs),
+                history["val_loss"],
+                label="val_loss")
+    plt.plot(np.arange(0, num_epochs),
+                history["train_acc"],
+                label="train_acc")
+    plt.plot(np.arange(0, num_epochs),
+                history["val_acc"],
+                label="val_acc")
+    plt.title("Training Loss and Accuracy")
+    plt.xlabel("Epoch #")
+    plt.ylabel("Loss/Accuracy")
+    plt.legend()
+    plt.show()
+    plt.close()
 
 
 def save_history_csv(history, save_path):
