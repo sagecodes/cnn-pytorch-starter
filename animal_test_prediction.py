@@ -8,7 +8,8 @@ from model_helpers import load_model
 from model_helpers import predict
 
 import pandas as pd
-
+from sklearn.metrics import confusion_matrix, classification_report
+import seaborn as sns
 import glob
 import os
 #%%
@@ -38,7 +39,7 @@ device = "cuda"
 paths = test_df["FilePath"]
 
 test_df["Label"] = pd.factorize(test_df["Label"])[0]
-true_labels = test_df["Label"]
+true_labels = test_df["Label"].values.tolist()
 
 preds = []
 
@@ -47,9 +48,18 @@ for path in paths:
     print(image)
     preds.append(predict(res_model.model,image,device))
 
-
 # %%
 print(preds)
 print(true_labels)
+
+# %%
+cm = confusion_matrix(true_labels, preds)
+
+
+# %%
+sns.heatmap(cm, annot =True)
+
+# %%
+print(classification_report(true_labels, preds))
 
 # %%
