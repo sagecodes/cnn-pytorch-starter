@@ -36,7 +36,10 @@ test_df
 device = "cuda"
 
 paths = test_df["FilePath"]
+
+test_df["Label"] = pd.factorize(test_df["Label"])[0]
 true_labels = test_df["Label"]
+
 preds = []
 
 for path in paths:
