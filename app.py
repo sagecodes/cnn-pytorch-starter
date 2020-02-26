@@ -19,13 +19,6 @@ from resnet50 import Resnet50_pretrained
 from model_helpers import load_model
 from model_helpers import predict
 
-
-# Make sure to pass `pretrained` as `True` to use the pretrained weights:
-model = models.densenet121(pretrained=True)
-# Since we are using our model only for inference, switch to `eval` mode:
-model.eval()
-
-
 # Model for prediction
 res_model = Resnet50_pretrained(3)
 res_model = load_model(res_model, 'trained_models/test_train.pt',True)
