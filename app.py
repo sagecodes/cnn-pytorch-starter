@@ -36,7 +36,7 @@ def hello():
     return 'Hello World!!!'
 
 # Prediction
-@app.route('/predict', methods=['POST'])
+@app.route('/predict', methods=['GET', 'POST'])
 def prediction():
     if request.method == 'POST':
         # we will get the file from the request
@@ -46,7 +46,15 @@ def prediction():
         # class_id, class_name = get_prediction(image_bytes=img_bytes)
         prediction = predict(res_model.model, file, device)
         return jsonify({'class_id': prediction})
-
-
+        
+    return '''
+        <!doctype html>
+        <title>Upload new File</title>
+        <h1>Upload new File</h1>
+        <form method=post enctype=multipart/form-data>
+        <input type=file name=file>
+        <input type=submit value=Upload>
+        </form>
+    '''
 if __name__ == '__main__':
     app.run()
