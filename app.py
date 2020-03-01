@@ -2,8 +2,6 @@ import io
 import sys
 import torchvision.transforms as transforms
 from PIL import Image
-# import jsonify
-# import requests
 
 from flask import Flask
 from flask import request
@@ -15,6 +13,8 @@ from torchvision import models
 
 sys.path.insert(0, './helpers')
 sys.path.insert(0, './models')
+# from .helpers.model_helpers import 
+
 from resnet50 import Resnet50_pretrained
 from model_helpers import load_model
 from model_helpers import predict

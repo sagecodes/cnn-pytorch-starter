@@ -17,17 +17,36 @@ from IPython.display import display, clear_output
 
 def train(model, n_epochs, loaders, optimizer,
                     criterion, device, save_path, verbose=False):
+    '''
+    This function trains a pytorch model and saves model when loss decreases
 
-    """
-    params:
-    model, n_epochs, loaders, optimizer,
-    criterion, device, save_path, verbose=False
-    
-    Trains model passed in as arg
+    Example use:
+        train(res50.model,
+                10,
+                { 'train':train_loader, 'valid':val_loader },
+                optim.SGD(res50.model.fc.parameters(), lr=learn_rate),
+                nn.CrossEntropyLoss(),
+                'cuda',
+                trained_models/test_train.pt)
 
-    Saves model if loss decreases
-    
-    """    
+    args:
+        model (pytorch_model): the model you would like to train 
+        n_epochs (number): the number of epochs to train model 
+        loaders (Dict): Dictionary of pytorch data loaders.
+                        Expects 'train' and 'valid'
+        optimizer (pytorch model optimizer): optimizer for training
+        criterion (pytorch model criterion): criterion for training
+        device (string): decide to run training on. usually 'cpu' or 'gpu'
+        save_path (string): the path where you would like to save the model.
+                            Including file name & extension.
+
+
+    output:
+        saves model to path passed in from 'load_path' file
+    returns: training history list
+
+    TODO: Save history as DF in run folder
+    '''    
     history = {'train_loss':[],
                 'train_acc':[],
                 'val_loss':[],
