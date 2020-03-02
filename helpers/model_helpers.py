@@ -40,7 +40,6 @@ def train(model, n_epochs, loaders, optimizer,
         save_path (string): the path where you would like to save the model.
                             Including file name & extension.
 
-
     output:
         saves model to path passed in from 'load_path' file
     returns: training history list
@@ -226,9 +225,27 @@ def save_history_csv(history, save_path):
     df.to_csv(save_path)
 
 
-def predict(model, img_path, device, verbose=False):
-    # load the image and return the predicted breed
+def predict(model, img_path, device):
+    """
+    this function returns a class prediction for an image from a model
+
+    example:
+        predict(res50.model, "animals/cata/cat1.jpg", "cuda):
+
     
+    args:
+        model (pytorch_model): the model you would like to train 
+        device (string): decide to run training on. usually 'cpu' or 'gpu'
+        img_path (string): the path to image for prediction.
+                            Including file name & extension.
+
+    returns:
+        predicted index(int) for image
+    
+    TODO:
+        Verbose option for top preditions while predicting
+    """
+
     image = Image.open(img_path)
     
     # Transform set to 244px recommended from pytorch doc 
@@ -243,15 +260,11 @@ def predict(model, img_path, device, verbose=False):
     model = model.to(device)
     
     preds = model(img)
-    
     prediction = torch.max(preds,1)[1].item()
     
     print(prediction)
-    # if verbose:
-    #     print("Predicted class is: {}(index: {})".format(
-    #                                             self.class_names[prediction],
-    #                                             prediction))        
-    # # return only highest prediction index
+      
+    # return only highest prediction index
     return prediction
 
 
