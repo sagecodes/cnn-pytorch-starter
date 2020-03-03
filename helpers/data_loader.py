@@ -11,7 +11,26 @@ import matplotlib.pyplot as plt
 
 class images_from_csv:
     """
-    Custom class for loading labeled image data from a CSV file for pytorch
+    This class loads labeled image data from a CSV file for a pytorch data loader 
+
+    Example use:
+         data = image_data_loader(images_from_csv('data/animals/',
+                                                    train_df,
+                                                    'FilePath',
+                                                    'Label',
+                                                    image_transforms(img_size)))
+
+    args:
+        data_root(str): Root directory where file paths point to
+        df (Pandas DataFrame): contaning file paths and labels in two columns
+        path_col (str): column containig the file paths
+        label_col (str): column containing the labels for each image
+        transforms() (function): Contains pytorch image transforms
+
+    returns:
+        image and label to dataloader 
+
+
     """
 
     def __init__(self, data_root, df, path_col, label_col, transforms=None):
