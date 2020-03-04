@@ -58,10 +58,16 @@ class images_from_csv:
 
 def image_transforms(img_size):
     """
-    Parmerters:
-    img_size
+    This function defines the transforms to do to images in the
+        pytorch data loader
 
-    returns transforms and normalization
+    args:
+    - img_size (int): what size the image should be scaled to
+
+    returns transforms to apply to images
+
+    TODO: 
+    - Multiple transform options to be activated by an arg
     """
 
     img_transforms = transforms.Compose(
