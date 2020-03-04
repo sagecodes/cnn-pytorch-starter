@@ -82,10 +82,15 @@ def image_transforms(img_size):
 
 def images_from_dir(data_dir, img_transforms):
     """
-    Parmerters:
-    data_dir, img_transforms
+    This function returns transformed images from a directory for
+     a pytorch data loader
 
-    returns data transformed from ImageFolder(data_dir)
+    args:
+    - data_dir (str): directory containing subfolder of images to load
+    - img_transforms (a pytorch transforms.Compose object): defined transforms
+      for images being loaded
+
+    returns transformed image data from ImageFolder(data_dir)
     """
 
     img_data = datasets.ImageFolder(root=data_dir,
