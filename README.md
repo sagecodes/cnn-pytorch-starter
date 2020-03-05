@@ -1,7 +1,27 @@
+# Pytorch Convolutional Neural Network Starter Template
 
+## Summary
 
+I had been building out Convolutional Neural Networks to solve various research 
+problems or as fun personal projects. After doing many of them I found myself 
+reproducing a large amount of the same code so I thought I should make a
+template for myself. I wanted something that I could grab and start easily using
+new datasets and architectures. I also didn't want it to live in a giant
+jupyter notebook. So I broke out everything into model and data loader helper
+functions. 
 
+This repo also contains a bare bones flask app that returns json response
+with the pytorch models predicted class.
 
+## Credits
+
+## Requirments
+
+## Load Data
+
+## Training
+
+## Predicting with Models
 
 ## Run Flask server
 
@@ -30,3 +50,7 @@ Mac/linux:
 `export FLASK_APP=app.py`
 
 `flask run`
+
+## Improvments
+
+- [] Use Argparse for training inputs
