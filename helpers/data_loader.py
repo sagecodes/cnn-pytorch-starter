@@ -93,6 +93,14 @@ def images_from_dir(data_dir, img_transforms):
     This function returns transformed images from a directory for
      a pytorch data loader
 
+    Example use:
+        # part of the data loader stack
+        data = image_data_loader(
+            images_from_dir('data/animals/',
+                            image_transforms(244)),
+                            32,
+                            0)
+
     args:
     - data_dir (str): directory containing subfolder of images to load
     - img_transforms (a pytorch transforms.Compose object): defined transforms
