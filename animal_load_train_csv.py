@@ -39,7 +39,11 @@ import torch.optim as optim
 import torch
 
 
-#%% 
+#%%
+
+# option to show datasets & vis while running in py script
+verbose = False
+
 ##########################
 # Data Paths 
 ##########################
@@ -53,8 +57,9 @@ test_df = pd.read_csv('../datasets/test_animals/test_labels.csv')
 df_lab.Label = pd.Categorical(pd.factorize(df_lab.Label)[0])
 test_df.Label = pd.Categorical(pd.factorize(test_df.Label)[0])
 
-print(f"df_lab shape:  {df_lab.shape}")
-print(f"test_df shape:  {test_df.shape}")
+if verbose:
+    print(f"df_lab shape:  {df_lab.shape}")
+    print(f"test_df shape:  {test_df.shape}")
 
 # Dataset folder
 data_dir = '../datasets/animals/'
@@ -98,12 +103,14 @@ loaders = {
 # Verify Sample Data from data loaders
 ##########################
 
-# Train Data sample
-image_plot(train_loader)
+if verbose: 
+    # Train Data sample
+    image_plot(train_loader)
 
 # %%
-# validation data sample
-image_plot(val_loader)
+if verbose: 
+    # validation data sample
+    image_plot(val_loader)
 
 # %%
 # Test data sample (placeholder)
@@ -129,13 +136,13 @@ res_model = Resnet50_pretrained(num_classes)
 ##########################
 
 # parameters
-n_epochs = 10
+n_epochs = 2
 learn_rate = 0.001
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(res_model.model.fc.parameters(), lr=learn_rate)
 
 device = 'cuda'
-save_path = 'trained_models/test_train.pt'
+save_path = 'trained_models/test_train_tmp.pt'
 
 #%% 
 # Train 
@@ -144,6 +151,7 @@ H = train(res_model.model, n_epochs, loaders, optimizer,
 
 
 #%%
-# Train Log
 
-plot_train_history(H,n_epochs)
+if verbose:
+    # Train Log
+    plot_train_history(H,n_epochs)
