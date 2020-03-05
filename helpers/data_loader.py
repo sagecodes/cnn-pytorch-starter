@@ -61,6 +61,14 @@ def image_transforms(img_size):
     This function defines the transforms to do to images in the
         pytorch data loader
 
+    Example use:
+    # part of the data loader stack
+    data = image_data_loader(
+        images_from_dir('data/animals/',
+                        image_transforms(244)),
+                        32,
+                        0)
+
     args:
     - img_size (int): what size the image should be scaled to
 
