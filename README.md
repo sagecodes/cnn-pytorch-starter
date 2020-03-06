@@ -15,15 +15,24 @@ with the pytorch models predicted class.
 
 ## Acknowledgements
 
+Inspiration for building this came while I was doing Udacity's 
+[Deep Learning Nanodegree](https://www.udacity.com/course/deep-learning-nanodegree--nd101) 
+and working on the Dog Breed classification project.
+You can find their prompt [here](https://github.com/udacity/deep-learning-v2-pytorch/tree/master/project-dog-classification). This goes beyond the scope they covered but I want to thank them for such great intro to Pytorch.
+
+And of course the offcial [Pyorch](https://pytorch.org/) docs were handy. 
+Specifically the docs on [creating a custom data loader](https://pytorch.org/tutorials/beginner/data_loading_tutorial.html), and running a model on [flask](https://pytorch.org/tutorials/intermediate/flask_rest_api_tutorial.html) 
+
+
 ## Requirments
 
 ## Loading Data
 
 ## Training a Model
 
-## Using Model to Preduct Classes
+## Using a Model to Predict Classes
 
-## Run Flask server
+## Run Flask Server
 
 This is a very bare bones fask set up to help get you started hosting your model
 You can upload an image and get back a response with the prediction index.
@@ -56,3 +65,4 @@ Mac/linux:
 ## Improvments
 
 - [ ] Use Argparse for training inputs
+- [ ] Use Shap values or Captum for Model Interpretabilitys
