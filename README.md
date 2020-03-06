@@ -13,15 +13,15 @@ functions.
 This repo also contains a bare bones flask app that returns json response
 with the pytorch models predicted class.
 
-## Credits
+## Acknowledgements
 
 ## Requirments
 
-## Load Data
+## Loading Data
 
-## Training
+## Training a Model
 
-## Predicting with Models
+## Using Model to Preduct Classes
 
 ## Run Flask server
 
@@ -40,11 +40,13 @@ this will be enough to get you started!
 to quickly check your app behavior on different images.
 
 Windows:
+
 `set FLASK_ENV=development`
 
 `set FLASK_APP=app.py`
 
 Mac/linux:
+
 `export FLASK_ENV=development`
 
 `export FLASK_APP=app.py`
@@ -53,4 +55,4 @@ Mac/linux:
 
 ## Improvments
 
-- [] Use Argparse for training inputs
+- [ ] Use Argparse for training inputs
