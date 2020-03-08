@@ -119,10 +119,24 @@ def images_from_dir(data_dir, img_transforms):
 
 def image_data_loader(data,batch_size,num_workers,shuffle=False):
     """
-    Parmerters:
-    data, batch_size, num_workers, shuffle=False
+    This function loads image data in batch sizes to train models
 
-    returns data from torch DataLoader
+    Example use:
+    # part of the data loader stack
+        data = image_data_loader(
+            images_from_dir('data/animals/',
+                            image_transforms(244)),
+                            32,
+                            0, 
+                            True)
+
+    args:
+    - data(pytorch dataloader object): Loader for images from directory or csv 
+    - batch_size(int): Batch size to load in for model training
+    - num_workers(int): Number of workers for multi-process data loading
+    - shuffle(bool): Shuffle data or not 
+
+    returns data from torch DataLoader for model traning
     """
     img_loader = torch.utils.data.DataLoader(data,
                                            batch_size=batch_size, 
