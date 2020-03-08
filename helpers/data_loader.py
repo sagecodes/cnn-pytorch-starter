@@ -134,7 +134,7 @@ def image_data_loader(data,batch_size,num_workers,shuffle=False):
     - data(pytorch dataloader object): Loader for images from directory or csv 
     - batch_size(int): Batch size to load in for model training
     - num_workers(int): Number of workers for multi-process data loading
-    - shuffle(bool): Shuffle data or not 
+    - shuffle(bool)=False: Shuffle data or not 
 
     returns data from torch DataLoader for model traning
     """
@@ -147,11 +147,24 @@ def image_data_loader(data,batch_size,num_workers,shuffle=False):
 
 def dir_loader_stack(data_dir,img_size,batch_size,num_workers,shuffle=False):
     """
-    Parmerters:
-    data_dir, img_size, batch_size, num_workers, shuffle=False
+    This funtion stacks all functions needed to load and preprocess image data
+       from a directory to train models in one place.
+
+    Example use:
+    train_loader = dir_loader_stack('data/animals/'
+                                    244,
+                                    32,
+                                    0,
+                                    True)
+
+    args:
+    - data_dir(str): path to directory with images in class sub folders
+    - batch_size(int): Batch size to load in for model training
+    - num_workers(int): Number of workers for multi-process data loading
+    - shuffle(bool)=False: Shuffle data or not 
 
     Return:
-    DataLoader object of dara from data_dir path 
+    - DataLoader object for loading images from a directory from the path given
     """
     data = image_data_loader(
         images_from_dir(data_dir,
