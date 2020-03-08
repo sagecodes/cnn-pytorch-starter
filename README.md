@@ -26,6 +26,23 @@ Specifically the docs on [creating a custom data loader](https://pytorch.org/tut
 
 ## Requirments
 
+[requirements.txt](requirements.txt)
+
+The versions of libraries I used / tested on
+
+- python `3.7.5`
+- cudatoolkit `10.1.243`
+- flask `1.1.1`
+- jupyter `1.0.0`
+- matplotlib `3.1.2`
+- numpy `1.17.2`
+- opencv `4.2.0`
+- pandas `0.25.2`
+- pillow `6.2.1`
+- pytorch `1.3.1`
+- seaborn `0.9.0`
+- torchvision `0.4.2`
+
 ## Loading Data
 
 ## Training a Model
