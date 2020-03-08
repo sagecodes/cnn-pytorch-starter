@@ -13,6 +13,7 @@ functions.
 This repo also contains a bare bones flask app that returns json response
 with the pytorch models predicted class.
 
+
 ## Acknowledgements
 
 Inspiration for building this came while I was doing Udacity's 
@@ -33,15 +34,15 @@ The versions of libraries I used / tested on
 - python `3.7.5`
 - cudatoolkit `10.1.243`
 - flask `1.1.1`
-- jupyter `1.0.0`
 - matplotlib `3.1.2`
 - numpy `1.17.2`
-- opencv `4.2.0`
 - pandas `0.25.2`
 - pillow `6.2.1`
 - pytorch `1.3.1`
 - seaborn `0.9.0`
 - torchvision `0.4.2`
+- jupyter `1.0.0` (optional: only if you want to load in notebook)
+
 
 ## Loading Data
 
