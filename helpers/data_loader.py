@@ -179,6 +179,8 @@ def csv_loader_stack(data_root,df, path_col, label_col,
        from a CSV file to train models in one place.
 
     Example use:
+    train_loader = csv_loader_stack('/datasets/animals/', train_df, 'FilePath',
+     'Label', 244, 32, 0, True)
 
 
     args:
