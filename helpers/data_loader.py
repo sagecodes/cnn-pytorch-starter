@@ -213,6 +213,18 @@ def csv_loader_stack(data_root,df, path_col, label_col,
 
 def image_plot(loader):
     """
+    This function displays 9 images from a data load object
+    useful to verify images are loaded how you wanted them
+    re-running the function will pull next iteration of data load
+
+    example use:
+        image_plot(train_loader)
+
+    args:
+    - loader(DataLoader object): Data loader object already pointed at images
+
+    returns:
+    - plots first 9 images from data loader iteration
     
     """
     testX_sanity, testY_sanity = next(iter(loader))
@@ -222,6 +234,7 @@ def image_plot(loader):
 
     fig, axes = plt.subplots(L,W,figsize=(12,12))
     axes = axes.ravel()
+    # de-normalize imagenet normalization from loader
     norm = transforms.Normalize(mean=[-0.485/0.229, -0.456/0.224, -0.406/0.225],
                                 std=[1/0.229, 1/0.224, 1/0.255])
     
