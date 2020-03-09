@@ -251,7 +251,21 @@ def image_plot(loader):
 
 def val_train_split(df, split, verbose=False, seed=42, shuffle=True):
     """
-    
+    This function function does a train / Validation split on a data frame
+
+    Example use:
+        train_df, val_df = val_train_split(df_lab, 0.2)
+
+    args:
+    - df (pandas DataFrame): DataFrame containing dataset to split
+    - split(float): percent to spit into validation set (0.2 = 20%)
+    - verbose=False(bool): option for printing DataFrames from function
+    - seed=42(int): random seed
+    - shuffle=True(bool): shuffle rows before splitting DataFrame
+
+    returns:
+    - training & validation data frames
+
     """
     
     # set random seed
