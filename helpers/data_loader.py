@@ -147,23 +147,20 @@ def image_data_loader(data,batch_size,num_workers,shuffle=False):
 
 def dir_loader_stack(data_dir,img_size,batch_size,num_workers,shuffle=False):
     """
-    This funtion stacks all functions needed to load and preprocess image data
+    This function stacks all functions needed to load and preprocess image data
        from a directory to train models in one place.
 
     Example use:
-    train_loader = dir_loader_stack('data/animals/'
-                                    244,
-                                    32,
-                                    0,
-                                    True)
+    train_loader = dir_loader_stack('data/animals/', 244, 32, 0, True)
 
     args:
     - data_dir(str): path to directory with images in class sub folders
+    - img_size (int): what size the image should be scaled to
     - batch_size(int): Batch size to load in for model training
     - num_workers(int): Number of workers for multi-process data loading
-    - shuffle(bool)=False: Shuffle data or not 
+    - shuffle=False(bool): Shuffle data or not 
 
-    Return:
+    Returns:
     - DataLoader object for loading images from a directory from the path given
     """
     data = image_data_loader(
@@ -178,9 +175,26 @@ def dir_loader_stack(data_dir,img_size,batch_size,num_workers,shuffle=False):
 def csv_loader_stack(data_root,df, path_col, label_col,
                         img_size,batch_size,num_workers, shuffle=False):
     """
-    Parmerters:
+    This function stacks all functions needed to load and preprocess image data
+       from a CSV file to train models in one place.
 
-    Return:
+    Example use:
+
+
+    args:
+    - data_root(str): path to root directory containing image paths from CSV
+    - df (Pandas DataFrame): contaning file paths and labels in two columns
+    - path_col (str): column containig the file paths
+    - label_col (str): column containing the labels for each image
+    - img_size (int): what size the image should be scaled to
+    - batch_size(int): Batch size to load in for model training
+    - num_workers(int): Number of workers for multi-process data loading
+    - shuffle=False(bool): Shuffle data or not
+
+    Returns:
+    - DataLoader object for loading images from the CSV file given
+
+
     """
     data = image_data_loader(
             images_from_csv(data_root,
