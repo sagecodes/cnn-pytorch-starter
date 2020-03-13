@@ -142,7 +142,7 @@ criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(res_model.model.fc.parameters(), lr=learn_rate)
 
 device = 'cuda'
-save_path = 'trained_models/test_train_tmp.pt'
+save_path = 'trained_models/test_train_tmp'
 
 #%% 
 # Train 

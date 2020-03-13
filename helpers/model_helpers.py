@@ -37,11 +37,12 @@ def train(model, n_epochs, loaders, optimizer,
         optimizer (pytorch model optimizer): optimizer for training
         criterion (pytorch model criterion): criterion for training
         device (string): decide to run training on. usually 'cpu' or 'gpu'
-        save_path (string): the path where you would like to save the model.
-                            Including file name & extension.
+        save_path (string): the path where you would like to save the model and
+            training history. only inlucde path & training name. No extentions
 
     output:
-        saves model to path passed in from 'load_path' file
+        saves model to 'save_path' with extension .pt
+        saves training history to 'save_path' with extension .csv
     returns: training history list
 
     TODO: Save history as DF in run folder
@@ -135,7 +136,7 @@ def train(model, n_epochs, loaders, optimizer,
         
         ## save the model if validation loss has decreased
         if valid_loss < valid_loss_min:
-            torch.save(model.state_dict(), save_path)
+            torch.save(model.state_dict(), save_path+'.pt')
             print(('SAVE MODEL: val_loss decrease ({:.6f}) val_acc: {:.6f}'.format(valid_loss, valid_acc)))
             valid_loss_min = valid_loss
     
@@ -143,6 +144,8 @@ def train(model, n_epochs, loaders, optimizer,
         history['train_acc'].append(train_acc)
         history['val_loss'].append(float(valid_loss))
         history['val_acc'].append(valid_acc)
+
+        save_history_csv(history, save_path)
     
     return history
 
@@ -194,7 +197,7 @@ def save_history_csv(history, save_path):
     this function saves model training history as a csv file
 
     example:
-        save_history_csv(history, 'train_hist.csv')
+        save_history_csv(history, 'train_hist')
 
     
     args:
@@ -204,7 +207,7 @@ def save_history_csv(history, save_path):
                                 train_acc(list), val_acc(list)
 
         save_path (string): the path where you would like to save file.
-        Including file name & extension.
+        Including file name, but not extension.
 
 
     output:
@@ -220,9 +223,9 @@ def save_history_csv(history, save_path):
      'val_acc': history["val_acc"]
     })
 
-    print(f"Saving file at {save_path}")
+    print(f"Saving CSV file at {save_path}.csv")
 
-    df.to_csv(save_path)
+    df.to_csv(save_pat+'csv')
 
 
 def predict(model, img_path, device):
