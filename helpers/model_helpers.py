@@ -225,7 +225,7 @@ def save_history_csv(history, save_path):
 
     print(f"Saving CSV file at {save_path}.csv")
 
-    df.to_csv(save_pat+'csv')
+    df.to_csv(save_path+'.csv')
 
 
 def predict(model, img_path, device):
