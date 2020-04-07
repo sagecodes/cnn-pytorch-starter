@@ -59,91 +59,99 @@ def train(model, n_epochs, loaders, optimizer,
     
     # initialize tracker for minimum validation loss
     valid_loss_min = np.Inf 
-    
-    for epoch in range(1, n_epochs+1):
-        # initialize variables to monitor training and validation loss
-        train_loss = 0.0
-        valid_loss = 0.0
-        num_correct = 0       
-        num_examples = 0
-    
-        # train the model
-        model.train()
-        for batch_idx, (data, target) in enumerate(loaders['train']):
-            # move to device
-            data = data.to(device)
-            target = target.to(device)
-
-            # reset gradient weights to zero
-            optimizer.zero_grad()
-            
-            output = model(data)
-            
-            # calculate loss
-            loss = criterion(output, target)
-            
-            # Compute Gradient
-            loss.backward()
-            
-            # Adjust weights w/ Gradient
-            optimizer.step()
-            
-            ## find the loss and update the model parameters accordingly
-            train_loss = train_loss + ((1 / (batch_idx + 1)) * (loss.data - train_loss))
-            
-
-            correct = torch.eq(torch.max(F.softmax(output), dim=1)[1],
-                                        target).view(-1)
-            num_correct += torch.sum(correct).item()
-            num_examples += correct.shape[0]
-
-            train_acc = num_correct / num_examples
-            
-
-        ######################    
-        # validate the model #
-        ######################
-        num_correct = 0       
-        num_examples = 0
-        model.eval()
-        for batch_idx, (data, target) in enumerate(loaders['valid']):
-            
-            # move to device
-            data = data.to(device)
-            target = target.to(device)
-                
-            ## update the average validation loss
-            output = model(data)
-            loss = criterion(output, target)
-            valid_loss = valid_loss + ((1 / (batch_idx + 1)) * (loss.data - valid_loss))
-            
-
-            correct = torch.eq(torch.max(F.softmax(output), dim=1)[1],
-                                        target).view(-1)
-
-            num_correct += torch.sum(correct).item()
-            num_examples += correct.shape[0]
-            
-            valid_acc = num_correct / num_examples
-
-            if batch_idx % 50 == 0:
-                print('Epoch: {} val_loss: {:.6f} val_acc: {:.6f}'.format(
-                epoch,
-                valid_loss,
-                valid_acc))
+    with tqdm(range(n_epochs)) as t:
+        for epoch in range(1, n_epochs+1):
+            # initialize variables to monitor training and validation loss
+            train_loss = 0.0
+            valid_loss = 0.0
+            num_correct = 0       
+            num_examples = 0
         
-        ## save the model if validation loss has decreased
-        if valid_loss < valid_loss_min:
-            torch.save(model.state_dict(), save_path+'.pt')
-            print(('SAVE MODEL: val_loss decrease ({:.6f}) val_acc: {:.6f}'.format(valid_loss, valid_acc)))
-            valid_loss_min = valid_loss
-    
-        history['train_loss'].append(float(train_loss))
-        history['train_acc'].append(train_acc)
-        history['val_loss'].append(float(valid_loss))
-        history['val_acc'].append(valid_acc)
+            # train the model
+            model.train()
+            
+            for batch_idx, (data, target) in enumerate(loaders['train']):
+                # move to device
+                data = data.to(device)
+                target = target.to(device)
 
-        save_history_csv(history, save_path)
+                # reset gradient weights to zero
+                optimizer.zero_grad()
+                
+                output = model(data)
+                
+                # calculate loss
+                loss = criterion(output, target)
+                
+                # Compute Gradient
+                loss.backward()
+                
+                # Adjust weights w/ Gradient
+                optimizer.step()
+                
+                ## find the loss and update the model parameters accordingly
+                train_loss = train_loss + ((1 / (batch_idx + 1)) * (loss.data - train_loss))
+                
+
+                correct = torch.eq(torch.max(F.softmax(output), dim=1)[1],
+                                            target).view(-1)
+                num_correct += torch.sum(correct).item()
+                num_examples += correct.shape[0]
+
+                train_acc = num_correct / num_examples
+
+                t.set_postfix(loss='{:.3f}'.format(train_loss))
+                
+
+            ######################    
+            # validate the model #
+            ######################
+            num_correct = 0       
+            num_examples = 0
+            model.eval()
+            for batch_idx, (data, target) in enumerate(loaders['valid']):
+                
+                # move to device
+                data = data.to(device)
+                target = target.to(device)
+                    
+                ## update the average validation loss
+                output = model(data)
+                loss = criterion(output, target)
+                valid_loss = valid_loss + ((1 / (batch_idx + 1)) * (loss.data - valid_loss))
+                
+
+                correct = torch.eq(torch.max(F.softmax(output), dim=1)[1],
+                                            target).view(-1)
+
+                num_correct += torch.sum(correct).item()
+                num_examples += correct.shape[0]
+                
+                valid_acc = num_correct / num_examples
+                
+                # if batch_idx % 50 == 0:
+                #     print('Epoch: {} val_loss: {:.6f} val_acc: {:.6f}'.format(
+                #     epoch,
+                #     valid_loss,
+                #     valid_acc))
+                t.set_postfix(val_accuracy='{:.3f}'.format(valid_acc))
+        
+
+            ## save the model if validation loss has decreased
+            if valid_loss < valid_loss_min:
+                torch.save(model.state_dict(), save_path+'.pt')
+                print(('SAVE MODEL: val_loss decrease ({:.6f}) val_acc: {:.6f}'.format(valid_loss, valid_acc)))
+                valid_loss_min = valid_loss
+        
+            history['train_loss'].append(float(train_loss))
+            history['train_acc'].append(train_acc)
+            history['val_loss'].append(float(valid_loss))
+            history['val_acc'].append(valid_acc)
+
+            save_history_csv(history, save_path)
+
+            
+            t.update()
     
     return history
 
