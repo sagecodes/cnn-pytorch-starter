@@ -136,7 +136,7 @@ res_model = Resnet50_pretrained(num_classes)
 ##########################
 
 # parameters
-n_epochs = 2
+n_epochs = 30
 learn_rate = 0.001
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(res_model.model.fc.parameters(), lr=learn_rate)

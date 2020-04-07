@@ -137,11 +137,21 @@ def train(model, n_epochs, loaders, optimizer,
                 t.set_postfix(val_accuracy='{:.3f}'.format(valid_acc))
         
 
+            
+
+            print("\n---------------------------------\n")
+            print(f'train_loss: {train_loss}')
+            print(f'train_acc: {train_acc}')
+            print(f'val_loss: {valid_loss}')
+            print(f'val_acc: {valid_acc}')
+
             ## save the model if validation loss has decreased
             if valid_loss < valid_loss_min:
                 torch.save(model.state_dict(), save_path+'.pt')
-                print(('SAVE MODEL: val_loss decrease ({:.6f}) val_acc: {:.6f}'.format(valid_loss, valid_acc)))
+                print('\nSAVED MODEL: val_loss decreased')
                 valid_loss_min = valid_loss
+
+            print("\n---------------------------------\n")
         
             history['train_loss'].append(float(train_loss))
             history['train_acc'].append(train_acc)
@@ -149,13 +159,6 @@ def train(model, n_epochs, loaders, optimizer,
             history['val_acc'].append(valid_acc)
 
             save_history_csv(history, save_path)
-
-            print("\n -------------------------------- \n")
-            print(f'train_loss: {train_loss}')
-            print(f'train_acc: {train_acc}')
-            print(f'val_loss: {valid_loss}')
-            print(f'val_acc: {valid_acc}')
-            print("\n -------------------------------- \n")
             
             t.update()
     
