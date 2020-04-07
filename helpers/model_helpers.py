@@ -150,6 +150,12 @@ def train(model, n_epochs, loaders, optimizer,
 
             save_history_csv(history, save_path)
 
+            print("\n -------------------------------- \n")
+            print(f'train_loss: {train_loss}')
+            print(f'train_acc: {train_acc}')
+            print(f'val_loss: {valid_loss}')
+            print(f'val_acc: {valid_acc}')
+            print("\n -------------------------------- \n")
             
             t.update()
     
