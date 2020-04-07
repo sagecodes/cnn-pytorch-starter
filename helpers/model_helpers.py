@@ -14,6 +14,8 @@ import matplotlib.pyplot as plt
 
 from IPython.display import display, clear_output
 
+from tqdm import tqdm
+
 
 def train(model, n_epochs, loaders, optimizer,
                     criterion, device, save_path, verbose=False):
@@ -96,11 +98,7 @@ def train(model, n_epochs, loaders, optimizer,
             num_examples += correct.shape[0]
 
             train_acc = num_correct / num_examples
-
-            # Print
-            if batch_idx % 50 == 0:
-                print('Epoch #{}, Batch #{} train_loss: {:.6f} train_acc: {:.6}'.format(epoch, batch_idx + 1, train_loss, train_acc))
-                        
+            
 
         ######################    
         # validate the model #

@@ -42,7 +42,7 @@ import torch
 #%%
 
 # option to show datasets & vis while running in py script
-verbose = True
+verbose = False
 
 ##########################
 # Data Paths 
