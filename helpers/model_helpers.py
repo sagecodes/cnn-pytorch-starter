@@ -46,8 +46,6 @@ def train(model, n_epochs, loaders, optimizer,
         saves model to 'save_path' with extension .pt
         saves training history to 'save_path' with extension .csv
     returns: training history list
-
-    TODO: Save history as DF in run folder
     '''    
     history = {'train_loss':[],
                 'train_acc':[],
