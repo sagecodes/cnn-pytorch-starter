@@ -12,8 +12,6 @@ ImageFile.LOAD_TRUNCATED_IMAGES = True
 from PIL import Image
 import matplotlib.pyplot as plt                        
 
-from IPython.display import display, clear_output
-
 from tqdm import tqdm
 
 
@@ -136,15 +134,16 @@ def train(model, n_epochs, loaders, optimizer,
 
             # print training data per epoch
             print("\n---------------------------------\n")
-            print(f'train_loss: {train_loss}')
-            print(f'train_acc: {train_acc}')
-            print(f'val_loss: {valid_loss}')
-            print(f'val_acc: {valid_acc}')
+            print(f'epoch: {epoch}/{n_epochs}')
+            print(f'train_loss:__{train_loss:.6f}')
+            print(f'train_acc:___{train_acc:.6f}')
+            print(f'val_loss:____{valid_loss:.6f}')
+            print(f'val_acc:_____{valid_acc:.6f}')
 
             ## save the model if validation loss has decreased
             if valid_loss < valid_loss_min:
                 torch.save(model.state_dict(), save_path+'.pt')
-                print('\nSAVED MODEL: val_loss decreased')
+                print(f'\nval_loss decreased: model saved at {save_path}.pt')
                 valid_loss_min = valid_loss
 
             print("\n---------------------------------\n")
@@ -237,7 +236,7 @@ def save_history_csv(history, save_path):
      'val_acc': history["val_acc"]
     })
 
-    print(f"Saving CSV file at {save_path}.csv")
+    print(f"Saving history at {save_path}.csv\n")
 
     df.to_csv(save_path+'.csv')
 

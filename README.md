@@ -46,6 +46,9 @@ See examples in:
 
 ## Training a Model
 
+python train.py --verbose=True --device=cuda --num_classes=3 --n_epochs=30 --learn_rate=0.001 --save_path=trained_models/test_train_tmp --csv_labels=../datasets/animals/labels.csv --img_size=244 --batch_size=32 --num_workers=0 --data_dir=../datasets/animals/
+
+
 See examples in:
 - animal_load_train_csv.py
 
