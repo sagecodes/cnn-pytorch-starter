@@ -46,7 +46,8 @@ def train(model, n_epochs, loaders, optimizer,
         saves model to 'save_path' with extension .pt
         saves training history to 'save_path' with extension .csv
     returns: training history list
-    '''    
+    '''
+    # history dict for training log    
     history = {'train_loss':[],
                 'train_acc':[],
                 'val_loss':[],
@@ -57,17 +58,20 @@ def train(model, n_epochs, loaders, optimizer,
     
     # initialize tracker for minimum validation loss
     valid_loss_min = np.Inf 
+
     with tqdm(range(n_epochs)) as t:
         for epoch in range(1, n_epochs+1):
+            
             # initialize variables to monitor training and validation loss
             train_loss = 0.0
             valid_loss = 0.0
             num_correct = 0       
             num_examples = 0
         
-            # train the model
+            ######################  
+            # train the model    #
+            ######################  
             model.train()
-            
             for batch_idx, (data, target) in enumerate(loaders['train']):
                 # move to device
                 data = data.to(device)
@@ -96,8 +100,10 @@ def train(model, n_epochs, loaders, optimizer,
                 num_correct += torch.sum(correct).item()
                 num_examples += correct.shape[0]
 
+                # calculate training accuracy
                 train_acc = num_correct / num_examples
 
+                # display train loss while training
                 t.set_postfix(loss='{:.3f}'.format(train_loss))
                 
 
@@ -118,25 +124,17 @@ def train(model, n_epochs, loaders, optimizer,
                 loss = criterion(output, target)
                 valid_loss = valid_loss + ((1 / (batch_idx + 1)) * (loss.data - valid_loss))
                 
-
+                # caluculate validation accuracy
                 correct = torch.eq(torch.max(F.softmax(output), dim=1)[1],
                                             target).view(-1)
-
                 num_correct += torch.sum(correct).item()
                 num_examples += correct.shape[0]
-                
                 valid_acc = num_correct / num_examples
                 
-                # if batch_idx % 50 == 0:
-                #     print('Epoch: {} val_loss: {:.6f} val_acc: {:.6f}'.format(
-                #     epoch,
-                #     valid_loss,
-                #     valid_acc))
+                # Display val accuracy while training
                 t.set_postfix(val_accuracy='{:.3f}'.format(valid_acc))
-        
 
-            
-
+            # print training data per epoch
             print("\n---------------------------------\n")
             print(f'train_loss: {train_loss}')
             print(f'train_acc: {train_acc}')
@@ -150,14 +148,17 @@ def train(model, n_epochs, loaders, optimizer,
                 valid_loss_min = valid_loss
 
             print("\n---------------------------------\n")
-        
+
+            # append training & validation history
             history['train_loss'].append(float(train_loss))
             history['train_acc'].append(train_acc)
             history['val_loss'].append(float(valid_loss))
             history['val_acc'].append(valid_acc)
 
+            # Save training history to csv file
             save_history_csv(history, save_path)
             
+            # update epoch progress bar
             t.update()
     
     return history
