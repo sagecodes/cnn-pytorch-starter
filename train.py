@@ -110,7 +110,7 @@ def load_train(verbose, device, num_classes, n_epochs, learn_rate, save_path,
     # Train 
     H = train(res_model.model, n_epochs, loaders, optimizer,
                         criterion, device, save_path)
-
+ 
     if verbose:
         # Train Log
         plot_train_history(H,n_epochs)
