@@ -39,8 +39,6 @@ import torch.nn as nn
 import torch.optim as optim
 import torch
 
-
-# %%
 @click.command()
 @click.option('--verbose', default=False, help='Verbose output')
 @click.option('--device', default='cpu', help='compute on cpu or cuda')
