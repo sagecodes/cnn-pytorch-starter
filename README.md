@@ -50,7 +50,7 @@ All aspect of loading images and training models are broken into functions.
 
 Please visit the [Example Jupyter Notebook]() or [train.py](train.py)
 
-#### Using train.py from terminal:
+### Using train.py from terminal:
 
 [train.py](train.py) can be run from terminal and passed commands arguments
 
@@ -62,19 +62,29 @@ python train.py --verbose=True --device=cuda --num_classes=3 --n_epochs=30 --lea
 
 ```
 
-python train.py 
+Arguments for python train.py 
 
---verbose=True 
---device=cuda 
---num_classes=3 
---n_epochs=30 
---learn_rate=0.001 
---save_path=trained_models/test_train_tmp
- --csv_labels=../datasets/animals/labels.csv 
- --img_size=244 
- --batch_size=32 
- --num_workers=0 
- --data_dir=../datasets/animals/
+`--verbose=True` 
+
+`--device=cuda`
+
+`--num_classes=3`
+
+`--n_epochs=30`
+
+`--learn_rate=0.001`
+
+`--save_path=trained_models/test_train_tmp`
+
+ `--csv_labels=../datasets/animals/labels.csv`
+
+ `--img_size=244`
+
+ `--batch_size=32`
+
+ `--num_workers=0` 
+
+ `--data_dir=../datasets/animals/`
 
 ## Using a Model to Predict Classes
 
