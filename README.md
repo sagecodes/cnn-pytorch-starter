@@ -87,6 +87,13 @@ Arguments for python train.py
  `--data_dir=../datasets/animals/`
 
 ## Using a Model to Predict Classes
+Run test.py
+
+Example:
+```
+python test.py --device=cuda --weights=trained_models/test_train.pt --data_csv=../datasets/test_animals/test_labels.csv --data_dir=../datasets/test_animals/ --num_classes=3
+```
+
 
 ## Run Flask Server
 
