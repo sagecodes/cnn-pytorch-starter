@@ -14,33 +14,26 @@ import glob
 import os
 import click
 
-# @click.command()
-# @click.option('--verbose', default=False, help='Verbose output')
-# @click.option('--device', default=False, help='Verbose output')
-# @click.option('--model', default=False, help='Verbose output')
-# @click.option('--test_data_dir', default=False, help='Verbose output')
-
-def test_model():
-    # Load model
+@click.command()
+@click.option('--device', default='cpu', help='compute on cpu or cuda')
+@click.option('--weights', default=None, help='{Path to Trained model weights')
+@click.option('--data_csv', default=None, help='path to CSV dataset')
+@click.option('--data_dir', default=None, help='directory where images are contained')
+@click.option('--num_classes', default=1, help='number of classes to predict')
+# @click.option('--path_format', default=dir, help='Verbose output')
+# @click.option('--model', default=resnet50, help='Verbose output')
+def test_model( device,weights,data_csv,data_dir,num_classes):
     # Define architecture
-    res_model = Resnet50_pretrained(3)
+    res_model = Resnet50_pretrained(num_classes)
     # Load weights, set ready for prediction
-    res_model = load_model(res_model, 'trained_models/test_train.pt',True)
+    res_model = load_model(res_model, weights,True)
 
     # run prediction
 
     # Data
-    test_df = pd.read_csv('../datasets/test_animals/test_labels.csv')
-    test_data_dir = '../datasets/test_animals/'
-    print(test_df.head())
-    
-    test_df
-
-    #Prediction 
-    device = "cuda"
-
+    test_df = pd.read_csv(data_csv)
+    test_data_dir = data_dir
     paths = test_df["FilePath"]
-
     test_df["Label"] = pd.factorize(test_df["Label"])[0]
     true_labels = test_df["Label"].values.tolist()
 
