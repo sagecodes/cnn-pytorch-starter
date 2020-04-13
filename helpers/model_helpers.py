@@ -293,7 +293,8 @@ def save_model(model, save_path):
 
         args:
             model (pytorch_model): the model you would like to save
-            save_path (string): the path where you would like to save file. Including file name & extension.
+            save_path (string): the path where you would like to save file.
+              Including file name & extension.
 
         output:
             saves model with name passed in 'save_path'

@@ -51,33 +51,52 @@ import torch
 @click.option('--batch_size', default=8, help='Batch size for training')
 @click.option('--num_workers', default=0, help='num workers for pytorch')
 @click.option('--data_dir', default=None, help='directory where images are contained')
+@click.option('--path_format', default=None, help='Verbose output')
 def load_train(verbose, device, num_classes, n_epochs, learn_rate, save_path,
-                csv_labels, img_size,batch_size, num_workers, data_dir):
+                csv_labels, img_size,batch_size, num_workers, data_dir,
+                path_format):
     '''
     TODO: 
         - Doc string
         - model option in click
         - run folder check and create
     '''
+    # if data labels are to be loaded from a CSV file
+    if path_format == "csv":
+        # Labels from CSV
+        df_lab = pd.read_csv(csv_labels)
 
-    # Labels from CSV
-    df_lab = pd.read_csv(csv_labels)
+        # One hot encoding
+        df_lab.Label = pd.Categorical(pd.factorize(df_lab.Label)[0])
 
-    # One hot encoding
-    df_lab.Label = pd.Categorical(pd.factorize(df_lab.Label)[0])
+        if verbose:
+            print(f"df_lab shape:  {df_lab.shape}")
 
-    if verbose:
-        print(f"df_lab shape:  {df_lab.shape}")
+        # Create Train & Validation split
+        train_df, val_df = val_train_split(df_lab, 0.2)
 
-    # Create Train & Validation split
-    train_df, val_df = val_train_split(df_lab, 0.2)
+        # Create Data loaders from CSV data
+        train_loader = csv_loader_stack(data_dir,train_df, 'FilePath', 'Label',
+                                img_size,batch_size,num_workers,True)
 
-    # Create Data loaders
-    train_loader = csv_loader_stack(data_dir,train_df, 'FilePath', 'Label',
-                            img_size,batch_size,num_workers,True)
+        val_loader = csv_loader_stack(data_dir,val_df, 'FilePath', 'Label',
+                                img_size,batch_size,num_workers,False)
+    
+    # If data labels are to be loaded from directories
+    else:
 
-    val_loader = csv_loader_stack(data_dir,val_df, 'FilePath', 'Label',
-                            img_size,batch_size,num_workers,False)
+        loader = dir_loader_stack(data_dir, img_size, batch_size,
+                                    num_workers, True)
+        train_size = int(0.8 * len(loader.dataset))
+        test_size = len(loader.dataset) - train_size
+        print(train_size)
+        print(test_size)
+        print(train_size+test_size)
+        print(len(loader.dataset))
+        train_data, val_data = torch.utils.data.random_split(loader.dataset, [train_size, test_size])
+
+        train_loader = torch.utils.data.DataLoader(train_data, batch_size=batch_size)
+        val_loader = torch.utils.data.DataLoader(val_data, batch_size=batch_size)
 
     loaders = {
         'train':train_loader,

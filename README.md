@@ -62,6 +62,9 @@ python train.py --verbose=True --device=cuda --num_classes=3 --n_epochs=30 --lea
 
 ```
 
+
+python train.py --verbose=True --device=cuda --num_classes=3 --n_epochs=30 --learn_rate=0.001 --save_path=trained_models/test_train_tmp --img_size=244 --batch_size=32 --num_workers=0 --data_dir=../datasets/animals/
+
 Arguments for python train.py 
 
 `--verbose=True` 
@@ -137,5 +140,5 @@ Specifically the docs on [creating a custom data loader](https://pytorch.org/tut
 
 
 ## Improvments
-- [ ] Use Argparse / FLAGs for training inputs
+- [X] Use Argparse / FLAGs for training inputs
 - [ ] Use Shap values or Captum for Model Interpretability
