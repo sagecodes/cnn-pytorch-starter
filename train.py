@@ -51,10 +51,8 @@ import torch
 @click.option('--batch_size', default=8, help='Batch size for training')
 @click.option('--num_workers', default=0, help='num workers for pytorch')
 @click.option('--data_dir', default=None, help='directory where images are contained')
-@click.option('--path_format', default=None, help='Verbose output')
 def load_train(verbose, device, num_classes, n_epochs, learn_rate, save_path,
-                csv_labels, img_size,batch_size, num_workers, data_dir,
-                path_format):
+                csv_labels, img_size,batch_size, num_workers, data_dir):
     '''
     TODO: 
         - Doc string
@@ -62,7 +60,7 @@ def load_train(verbose, device, num_classes, n_epochs, learn_rate, save_path,
         - run folder check and create
     '''
     # if data labels are to be loaded from a CSV file
-    if path_format == "csv":
+    if csv_labels:
         # Labels from CSV
         df_lab = pd.read_csv(csv_labels)
 
