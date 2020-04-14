@@ -38,8 +38,6 @@ Directory (Images in folders seperated by class)
 
 CSV 
 
-
-
 See examples in:
 - animal_load_train_csv.py
 

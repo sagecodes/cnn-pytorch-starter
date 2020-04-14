@@ -28,6 +28,7 @@ from data_loader import val_train_split
 
 # Model classes
 from resnet50 import Resnet50_pretrained
+from vgg import vgg16_pretrained
 
 # Model helpers
 from model_helpers import train
@@ -51,8 +52,10 @@ import torch
 @click.option('--batch_size', default=8, help='Batch size for training')
 @click.option('--num_workers', default=0, help='num workers for pytorch')
 @click.option('--data_dir', default=None, help='directory where images are contained')
+@click.option('--model_type', default='resnet50', help='Model Architecture for training')
 def load_train(verbose, device, num_classes, n_epochs, learn_rate, save_path,
-                csv_labels, img_size,batch_size, num_workers, data_dir):
+                csv_labels, img_size,batch_size, num_workers, data_dir,
+                model_type):
     '''
     TODO: 
         - Doc string
@@ -82,7 +85,6 @@ def load_train(verbose, device, num_classes, n_epochs, learn_rate, save_path,
     
     # If data labels are to be loaded from directories
     else:
-
         loader = dir_loader_stack(data_dir, img_size, batch_size,
                                     num_workers, True)
         train_size = int(0.8 * len(loader.dataset))
@@ -115,15 +117,21 @@ def load_train(verbose, device, num_classes, n_epochs, learn_rate, save_path,
     # Create model
 
     # create model from model class
-    res_model = Resnet50_pretrained(num_classes)
-
+    if model_type == 'resnet50':
+        model = Resnet50_pretrained(num_classes)
+    
+    elif model_type == 'vgg16':
+         model = vgg16_pretrained(num_classes)
+    if verbose:
+        print(model.model)
+  
     # Train Model
     criterion = nn.CrossEntropyLoss()
-    optimizer = optim.SGD(res_model.model.fc.parameters(), lr=learn_rate)
+    optimizer = optim.SGD(model.model.fc.parameters(), lr=learn_rate)
     # save_path = 'trained_models/test_train_tmp'
 
     # Train 
-    H = train(res_model.model, n_epochs, loaders, optimizer,
+    H = train(model.model, n_epochs, loaders, optimizer,
                         criterion, device, save_path)
  
     if verbose:

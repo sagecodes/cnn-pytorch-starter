@@ -13,7 +13,6 @@ from PIL import Image
 
 class Resnet50_pretrained:
     
-    
     def __init__(self, num_classes):
 
         # self.device = device

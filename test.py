@@ -20,7 +20,6 @@ import click
 @click.option('--data_csv', default=None, help='path to CSV dataset')
 @click.option('--data_dir', default=None, help='directory where images are contained')
 @click.option('--num_classes', default=1, help='number of classes to predict')
-# @click.option('--path_format', default=dir, help='Verbose output')
 # @click.option('--model', default=resnet50, help='Verbose output')
 def test_model( device,weights,data_csv,data_dir,num_classes):
     # Define architecture
