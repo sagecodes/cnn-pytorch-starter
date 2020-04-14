@@ -120,8 +120,9 @@ def load_train(verbose, device, num_classes, n_epochs, learn_rate, save_path,
     if model_type == 'resnet50':
         model = Resnet50_pretrained(num_classes)
     
-    elif model_type == 'vgg16':
-         model = vgg16_pretrained(num_classes)
+    # elif model_type == 'vgg16':
+    #      model = vgg16_pretrained(num_classes)
+
     if verbose:
         print(model.model)
   
