@@ -40,6 +40,7 @@ import torch.nn as nn
 import torch.optim as optim
 import torch
 
+# Command line arguments
 @click.command()
 @click.option('--verbose', default=False, help='Verbose output')
 @click.option('--device', default='cpu', help='compute on cpu or cuda')
@@ -128,13 +129,8 @@ def load_train(verbose, device, num_classes, n_epochs, learn_rate, save_path,
         criterion = nn.CrossEntropyLoss()
         optimizer = optim.SGD(model.model.classifier._modules['6'] .parameters(), lr=learn_rate)
 
-    
+    # print model to terminal
     print(model.model)
-  
-    # Train Model
-    # criterion = nn.CrossEntropyLoss()
-    # optimizer = optim.SGD(model.model.fc.parameters(), lr=learn_rate)
-    # save_path = 'trained_models/test_train_tmp'
 
     # Train 
     H = train(model.model, n_epochs, loaders, optimizer,
