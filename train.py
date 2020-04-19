@@ -114,14 +114,15 @@ def load_train(verbose, device, num_classes, n_epochs, learn_rate, save_path,
         print("\nValidation images")
         image_plot(val_loader)
 
-    # Create model
-
     # create model from model class
+
+    #resnet50 model
     if model_type == 'resnet50':
         model = Resnet50_pretrained(num_classes)
         criterion = nn.CrossEntropyLoss()
         optimizer = optim.SGD(model.model.fc.parameters(), lr=learn_rate)
     
+    # vgg model
     elif model_type == 'vgg16':
         model = vgg16_pretrained(num_classes)
         criterion = nn.CrossEntropyLoss()
