@@ -128,8 +128,8 @@ def load_train(verbose, device, num_classes, n_epochs, learn_rate, save_path,
         criterion = nn.CrossEntropyLoss()
         optimizer = optim.SGD(model.model.classifier._modules['6'] .parameters(), lr=learn_rate)
 
-    if verbose:
-        print(model.model)
+    
+    print(model.model)
   
     # Train Model
     # criterion = nn.CrossEntropyLoss()
