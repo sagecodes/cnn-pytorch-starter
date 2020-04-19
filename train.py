@@ -119,16 +119,20 @@ def load_train(verbose, device, num_classes, n_epochs, learn_rate, save_path,
     # create model from model class
     if model_type == 'resnet50':
         model = Resnet50_pretrained(num_classes)
+        criterion = nn.CrossEntropyLoss()
+        optimizer = optim.SGD(model.model.fc.parameters(), lr=learn_rate)
     
-    # elif model_type == 'vgg16':
-    #      model = vgg16_pretrained(num_classes)
+    elif model_type == 'vgg16':
+        model = vgg16_pretrained(num_classes)
+        criterion = nn.CrossEntropyLoss()
+        optimizer = optim.SGD(model.model.classifier._modules['6'] .parameters(), lr=learn_rate)
 
     if verbose:
         print(model.model)
   
     # Train Model
-    criterion = nn.CrossEntropyLoss()
-    optimizer = optim.SGD(model.model.fc.parameters(), lr=learn_rate)
+    # criterion = nn.CrossEntropyLoss()
+    # optimizer = optim.SGD(model.model.fc.parameters(), lr=learn_rate)
     # save_path = 'trained_models/test_train_tmp'
 
     # Train 

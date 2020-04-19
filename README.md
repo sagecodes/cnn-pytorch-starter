@@ -94,6 +94,7 @@ Arguments for python train.py
  `--data_dir=../datasets/animals/`
 
 ## Using a Model to Predict Classes
+
 Run test.py
 
 Example:

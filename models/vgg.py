@@ -23,11 +23,20 @@ class vgg16_pretrained:
         for param in self.model.parameters():
             param.requires_grad = False
 
-        self.model.fc = self.fc_out
+        # Number of filters in the bottleneck layer
+        num_ftrs = self.model.classifier[6].in_features
+
+        # convert all the layers to list and remove the last one
+        features = list(self.model.classifier.children())[:-1]
+
+        ## Add the last layer based on the num of classes in our dataset
+        features.extend([nn.Linear(num_ftrs, self.num_classes)])
+
+        ## convert it into container and add it to our model class.
+        self.model.classifier = nn.Sequential(*features)
+
+        # self.model.classifier._modules['6'] = self.fc_out
         
 
     # def forward(self):
     # No forward needed imported model
-
-
-
