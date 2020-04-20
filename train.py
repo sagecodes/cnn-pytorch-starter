@@ -48,13 +48,16 @@ import torch
 @click.option('--num_classes', default=1, help='number of classes to predict')
 @click.option('--n_epochs', default=3, help='number of epochs')
 @click.option('--learn_rate', default=0.001, help='learning rate')
-@click.option('--save_path', default=None, help='save path for model and history')
+@click.option('--save_path', default=None, help='save path for model \
+                                                        and history')
 @click.option('--csv_labels', default=None, help='path to CSV dataset')
 @click.option('--img_size', default=244, help='resize images')
 @click.option('--batch_size', default=8, help='Batch size for training')
 @click.option('--num_workers', default=0, help='num workers for pytorch')
-@click.option('--data_dir', default=None, help='directory where images are contained')
-@click.option('--model_type', default='resnet50', help='Model Architecture for training')
+@click.option('--data_dir', default=None, help='directory where images are \
+                                                                    contained')
+@click.option('--model_type', default='resnet50', help='Model Architecture \
+                                                                 fortraining')
 def load_train(verbose, device, num_classes, n_epochs, learn_rate, save_path,
                 csv_labels, img_size,batch_size, num_workers, data_dir,
                 model_type):
@@ -95,10 +98,13 @@ def load_train(verbose, device, num_classes, n_epochs, learn_rate, save_path,
         print(test_size)
         print(train_size+test_size)
         print(len(loader.dataset))
-        train_data, val_data = torch.utils.data.random_split(loader.dataset, [train_size, test_size])
+        train_data, val_data = torch.utils.data.random_split(loader.dataset,
+                                                        [train_size, test_size])
 
-        train_loader = torch.utils.data.DataLoader(train_data, batch_size=batch_size)
-        val_loader = torch.utils.data.DataLoader(val_data, batch_size=batch_size)
+        train_loader = torch.utils.data.DataLoader(train_data,
+                                                    batch_size=batch_size)
+        val_loader = torch.utils.data.DataLoader(val_data, 
+                                                    batch_size=batch_size)
 
     loaders = {
         'train':train_loader,
@@ -130,13 +136,15 @@ def load_train(verbose, device, num_classes, n_epochs, learn_rate, save_path,
     elif model_type == 'vgg16':
         model = vgg16_pretrained(num_classes)
         criterion = nn.CrossEntropyLoss()
-        optimizer = optim.SGD(model.model.classifier._modules['6'].parameters(), lr=learn_rate)
+        optimizer = optim.SGD(model.model.classifier._modules['6'].parameters(),
+                                                                lr=learn_rate)
         train_model = model.model
     
     elif model_type == 'scratch':
         model = Scratch_net(num_classes)
         criterion = nn.CrossEntropyLoss()
-        optimizer = optim.SGD(model.classifier._modules['6'].parameters(), lr=learn_rate)
+        optimizer = optim.SGD(model.classifier._modules['6'].parameters(),
+                                                                lr=learn_rate)
         train_model = model
 
     else:
