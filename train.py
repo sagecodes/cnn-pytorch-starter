@@ -119,6 +119,7 @@ def load_train(verbose, device, num_classes, n_epochs, learn_rate, save_path,
     # create model from model class
 
     #resnet50 model
+    
     if model_type == 'resnet50':
         model = Resnet50_pretrained(num_classes)
         criterion = nn.CrossEntropyLoss()
@@ -137,6 +138,12 @@ def load_train(verbose, device, num_classes, n_epochs, learn_rate, save_path,
         criterion = nn.CrossEntropyLoss()
         optimizer = optim.SGD(model.classifier._modules['6'].parameters(), lr=learn_rate)
         train_model = model
+
+    else:
+        print('\n!---------------------------------!\n')
+        print('please select an existing model type or create you own')
+        print('\n!---------------------------------!\n')
+    
 
     # print model to terminal
     print(train_model)
