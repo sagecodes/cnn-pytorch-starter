@@ -123,18 +123,26 @@ def load_train(verbose, device, num_classes, n_epochs, learn_rate, save_path,
         model = Resnet50_pretrained(num_classes)
         criterion = nn.CrossEntropyLoss()
         optimizer = optim.SGD(model.model.fc.parameters(), lr=learn_rate)
+        train_model = model.model
     
     # vgg model
     elif model_type == 'vgg16':
         model = vgg16_pretrained(num_classes)
         criterion = nn.CrossEntropyLoss()
         optimizer = optim.SGD(model.model.classifier._modules['6'] .parameters(), lr=learn_rate)
+        train_model = model.model
+    
+    elif model_type == 'scratch':
+        model = Scratch_net(num_classes)
+        criterion = nn.CrossEntropyLoss()
+        optimizer = optim.SGD(model.classifier._modules['6'].parameters(), lr=learn_rate)
+        train_model = model
 
     # print model to terminal
-    print(model.model)
+    print(train_model)
 
     # Train 
-    H = train(model.model, n_epochs, loaders, optimizer,
+    H = train(train_model, n_epochs, loaders, optimizer,
                         criterion, device, save_path)
  
     if verbose:

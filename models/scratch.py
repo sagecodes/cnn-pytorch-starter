@@ -1,11 +1,12 @@
 import torch.nn as nn
 import torch.nn.functional as F
+import torch
 
-# define the CNN architecture
+# define your CNN architecture here
 class Scratch_net(nn.Module):
-    ### TODO: choose an architecture, and complete the class
-    def __init__(self):
-        super(Net, self).__init__()
+    # Included code below is just an example 
+    def __init__(self,num_classes):
+        super(Scratch_net, self).__init__()
         ## Define layers of a CNN
         self.features = nn.Sequential(
             nn.Conv2d(3, 64, kernel_size=11, stride=4, padding=2),
