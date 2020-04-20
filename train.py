@@ -29,6 +29,7 @@ from data_loader import val_train_split
 # Model classes
 from resnet50 import Resnet50_pretrained
 from vgg import vgg16_pretrained
+from scratch import Scratch_net
 
 # Model helpers
 from model_helpers import train
