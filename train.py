@@ -130,7 +130,7 @@ def load_train(verbose, device, num_classes, n_epochs, learn_rate, save_path,
     elif model_type == 'vgg16':
         model = vgg16_pretrained(num_classes)
         criterion = nn.CrossEntropyLoss()
-        optimizer = optim.SGD(model.model.classifier._modules['6'] .parameters(), lr=learn_rate)
+        optimizer = optim.SGD(model.model.classifier._modules['6'].parameters(), lr=learn_rate)
         train_model = model.model
     
     elif model_type == 'scratch':
