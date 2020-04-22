@@ -124,8 +124,7 @@ def load_train(verbose, device, num_classes, n_epochs, learn_rate, save_path,
 
     # create model from model class
 
-    #resnet50 model
-    
+    #resnet50 mode
     if model_type == 'resnet50':
         model = Resnet50_pretrained(num_classes)
         criterion = nn.CrossEntropyLoss()
