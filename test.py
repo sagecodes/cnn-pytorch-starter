@@ -9,6 +9,7 @@ from scratch import Scratch_net
 
 from model_helpers import load_model
 from model_helpers import predict
+from data_loader import images_from_dir
 
 import pandas as pd
 from sklearn.metrics import confusion_matrix, classification_report
@@ -52,18 +53,33 @@ def test_model( device, weights, data_csv, data_dir, num_classes, model_type):
     # run prediction
 
     # Data
-    test_df = pd.read_csv(data_csv)
-    test_data_dir = data_dir
-    paths = test_df["FilePath"]
-    test_df["Label"] = pd.factorize(test_df["Label"])[0]
-    true_labels = test_df["Label"].values.tolist()
 
-    preds = []
+    # CSV data
+    if data_csv:
+        test_df = pd.read_csv(data_csv)
+        test_data_dir = data_dir
+        paths = test_df["FilePath"]
+        test_df["Label"] = pd.factorize(test_df["Label"])[0]
+        true_labels = test_df["Label"].values.tolist()
+        preds = []
 
-    for path in paths:
-        image = os.path.join(test_data_dir, path)
-        print(image)
-        preds.append(predict(model,image,device))
+        for path in paths:
+            image = os.path.join(test_data_dir, path)
+            print(image)
+            preds.append(predict(model,image,device))
+    else:
+        # from directory
+        images = images_from_dir(data_dir)
+        print(images.class_to_idx)
+      
+        true_labels = []
+        preds = []
+
+        for image, label in images:
+            # image = os.path.join(test_data_dir, path)
+            # print(image)
+            true_labels.append(label)
+            preds.append(predict(model,image,device))
 
     print('\n---------------------------------------------')
     print('predicted values:\n')
