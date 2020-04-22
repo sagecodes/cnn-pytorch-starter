@@ -29,11 +29,22 @@ import click
                                                             for prediction')
 def test_model( device, weights, data_csv, data_dir, num_classes, model_type):
     
-    if model_type == 'resnet50':
-        # load model architecture
+    # load model architecture
+    # Load pretrained resnet
+    if model_type == 'resnet50':    
         model = Resnet50_pretrained(num_classes)
+        model = model.model
+    # Load pretrained VGG
     elif model_type == 'vgg16':
         model = vgg16_pretrained(num_classes)
+        model = model.model
+    # Load your own model from models/scratch.py
+    elif model_type == 'scratch':
+        model = Scratch_net(num_classes)
+    else:
+        print('\n!---------------------------------!\n')
+        print('please select an existing model type or create you own')
+        print('\n!---------------------------------!\n')
 
     # Load weights, set ready for prediction
     model = load_model(model, weights,True)
@@ -52,7 +63,7 @@ def test_model( device, weights, data_csv, data_dir, num_classes, model_type):
     for path in paths:
         image = os.path.join(test_data_dir, path)
         print(image)
-        preds.append(predict(model.model,image,device))
+        preds.append(predict(model,image,device))
 
     print('\n---------------------------------------------')
     print('predicted values:\n')

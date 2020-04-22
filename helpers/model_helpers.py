@@ -314,7 +314,7 @@ def load_model(model, load_path, evals=False):
         This function loads a pytorch model using load_state_dict() method 
 
         Example use:
-            load_model(res_model , 'test_train.pt', True)
+            load_model(resnet.model , 'test_train.pt', True)
 
         args:
             model (pytorch_model): the model architecture you would like to load
@@ -328,9 +328,9 @@ def load_model(model, load_path, evals=False):
             returns model with weights passed in from 'load_path' file
         '''
 
-        model.model.load_state_dict(torch.load(load_path))
+        model.load_state_dict(torch.load(load_path))
         
         if evals:
-            model.model.eval()
+            model.eval()
 
         return model
