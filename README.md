@@ -15,6 +15,11 @@ with the pytorch models predicted class.
 
 ## Loading Data
 
+Please visit the [Example Jupyter Notebook](example.ipynb) for examples of
+how to use the data loading functions.
+
+Or read next section on how to use data with [train.py](train.py)
+
 Directory (Images in folders seperated by class)
 
 CSV 
@@ -25,41 +30,37 @@ See examples in:
 
 ## Training a Model
 
-All aspect of loading images and training models are broken into functions.
-
 Please visit the [Example Jupyter Notebook](example.ipynb) for examples of
-how to use the data loading and training functions.
+how to use the training functions.
+
+*note:* Currently train.py is set to use a pre-trained resnet50, VGG, or a
+model programmed from scratch. reference the [models folder](/models) for how
+a model is built. It is fairly straight foward to add more pre-built models. 
+Or experiement with your own by writing it in 
+[models folder](/models/scratch.py) 
 
 [train.py](train.py) is an option to train directly from your terminal by
 passing in arguments from the command line. read instructions below:
 
-### Using train.py from terminal:
+### Using train.py:
 
 [train.py](train.py) can be run from terminal and passed commands arguments
 
-*note:* Currently train.py is set to use a pre-trained resnet50. reference the [models folder](/models) for how a model is built
-
-Example:
-
-CSV labels
+##### Example: CSV Labels 
 
 ```
 python train.py --verbose=True --device=cuda --num_classes=3 --n_epochs=30 
 --learn_rate=0.001 --save_path=trained_models/test_train_tmp
 --csv_labels=../datasets/animals/labels.csv --img_size=244 --batch_size=32 
 --num_workers=0 --data_dir=../datasets/animals/
-
 ```
 
-Example:
-
-directory labels
+##### Example Directory Labels:
 
 ```
 python train.py --verbose=True --device=cuda --num_classes=3 --n_epochs=30 
 --learn_rate=0.001 --save_path=trained_models/test_train_tmp --img_size=244 
 --batch_size=32 --num_workers=0 --data_dir=../datasets/animals/
-
 ```
 Arguments for python train.py 
 
@@ -90,8 +91,11 @@ Arguments for python train.py
 Run test.py
 
 Example:
+
 ```
-python test.py --device=cuda --weights=trained_models/test_train.pt --data_csv=../datasets/test_animals/test_labels.csv --data_dir=../datasets/test_animals/ --num_classes=3
+python test.py --device=cuda --weights=trained_models/test_train.pt 
+--data_csv=../datasets/test_animals/test_labels.csv
+--data_dir=../datasets/test_animals/ --num_classes=3
 ```
 
 
