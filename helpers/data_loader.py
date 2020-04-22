@@ -88,7 +88,7 @@ def image_transforms(img_size):
     return img_transforms
 
 
-def images_from_dir(data_dir, img_transforms):
+def images_from_dir(data_dir, img_transforms=None):
     """
     This function returns transformed images from a directory for
      a pytorch data loader
