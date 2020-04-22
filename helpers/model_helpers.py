@@ -241,7 +241,7 @@ def save_history_csv(history, save_path):
     df.to_csv(save_path+'.csv')
 
 
-def predict(model, img_path, device):
+def predict(model, image, device, path=False):
     """
     this function returns a class prediction for an image from a model
 
@@ -261,8 +261,8 @@ def predict(model, img_path, device):
     TODO:
         Verbose option for top preditions while predicting
     """
-
-    image = Image.open(img_path)
+    if path == True:
+        image = Image.open(image)
     
     # Transform set to 244px recommended from pytorch doc 
     # for this pre trained network & change to tensor
@@ -282,6 +282,7 @@ def predict(model, img_path, device):
       
     # return only highest prediction index
     return prediction
+
 
 
 def save_model(model, save_path):
