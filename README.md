@@ -161,4 +161,8 @@ Specifically the docs on [creating a custom data loader](https://pytorch.org/tut
 
 
 ## Improvments
+- [x] accept command line args in train.py
 - [ ] Use Shap values or Captum for Model Interpretability
+- [ ] Add validation data option to train.py
+- [ ] accept command line args in test.py
+- [ ] create extensive jupyter examples
