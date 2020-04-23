@@ -69,13 +69,16 @@ def load_train(verbose, device, num_classes, n_epochs, learn_rate, save_path,
     # if data labels are to be loaded from a CSV file
     if csv_labels:
         # Labels from CSV
-        df_lab = pd.read_csv(csv_labels)
+        train_df = pd.read_csv(csv_labels)
 
         # One hot encoding
-        df_lab.Label = pd.Categorical(pd.factorize(df_lab.Label)[0])
+        train_df.Label = pd.Categorical(pd.factorize(train_df.Label)[0])
 
         # Create Train & Validation split
-        train_df, val_df = val_train_split(df_lab, 0.2)
+        # if val_data:
+            
+        # else:
+        #     train_df, val_df = val_train_split(train_df, 0.2)
 
         # Create Data loaders from CSV data
         train_loader = csv_loader_stack(data_dir,train_df, 'FilePath', 'Label',
@@ -110,7 +113,8 @@ def load_train(verbose, device, num_classes, n_epochs, learn_rate, save_path,
         'train':train_loader,
         'valid':val_loader
     }
-    # print(len(loader.dataset))
+    print('Training length: ' + str(len(train_loader.dataset)))
+    print('Validation length: ' + str(len(val_loader.dataset)))
   
     # verify images before training
     if verbose: 
