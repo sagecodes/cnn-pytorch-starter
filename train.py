@@ -54,16 +54,16 @@ import torch
 @click.option('--num_workers', default=0, help='num workers for pytorch')
 @click.option('--data_dir', default=None, help='directory where images are \
                                                                     contained')
-@click.option('--val_data', default=None, help='path to validation data')                                                                    
+@click.option('--val_data', default=None, help='path to validation data')
 @click.option('--model_type', default='resnet50', help='Model Architecture \
                                                                  for training')
 def load_train(verbose, device, num_classes, n_epochs, learn_rate, save_path,
                 csv_labels, img_size,batch_size, num_workers, data_dir,
                 model_type, val_data):
     '''
+    See README.md for train.py instructions
+
     TODO: 
-        - Doc string
-        - model option in click
         - run folder check and create
     '''
     # if data labels are to be loaded from a CSV file
@@ -74,11 +74,16 @@ def load_train(verbose, device, num_classes, n_epochs, learn_rate, save_path,
         # One hot encoding
         train_df.Label = pd.Categorical(pd.factorize(train_df.Label)[0])
 
-        # Create Train & Validation split
-        # if val_data:
+        if val_data:
+            # Labels from CSV
+            val_df = pd.read_csv(val_data)
+
+            # One hot encoding
+            val_df.Label = pd.Categorical(pd.factorize(val_df.Label)[0])
             
-        # else:
-        #     train_df, val_df = val_train_split(train_df, 0.2)
+        else:
+            # Create Train & Validation split
+            train_df, val_df = val_train_split(train_df, 0.2)
 
         # Create Data loaders from CSV data
         train_loader = csv_loader_stack(data_dir,train_df, 'FilePath', 'Label',
