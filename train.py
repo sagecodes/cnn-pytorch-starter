@@ -14,8 +14,6 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt                        
 
-# %matplotlib inline
-
 # Set paths for custom modules
 sys.path.insert(0, './helpers')
 sys.path.insert(0, './models')
@@ -56,11 +54,12 @@ import torch
 @click.option('--num_workers', default=0, help='num workers for pytorch')
 @click.option('--data_dir', default=None, help='directory where images are \
                                                                     contained')
+@click.option('--val_data', default=None, help='path to validation data')                                                                    
 @click.option('--model_type', default='resnet50', help='Model Architecture \
-                                                                 fortraining')
+                                                                 for training')
 def load_train(verbose, device, num_classes, n_epochs, learn_rate, save_path,
                 csv_labels, img_size,batch_size, num_workers, data_dir,
-                model_type):
+                model_type, val_data):
     '''
     TODO: 
         - Doc string
@@ -75,9 +74,6 @@ def load_train(verbose, device, num_classes, n_epochs, learn_rate, save_path,
         # One hot encoding
         df_lab.Label = pd.Categorical(pd.factorize(df_lab.Label)[0])
 
-        if verbose:
-            print(f"df_lab shape:  {df_lab.shape}")
-
         # Create Train & Validation split
         train_df, val_df = val_train_split(df_lab, 0.2)
 
@@ -90,26 +86,31 @@ def load_train(verbose, device, num_classes, n_epochs, learn_rate, save_path,
     
     # If data labels are to be loaded from directories
     else:
-        loader = dir_loader_stack(data_dir, img_size, batch_size,
-                                    num_workers, True)
-        train_size = int(0.8 * len(loader.dataset))
-        test_size = len(loader.dataset) - train_size
-        print(train_size)
-        print(test_size)
-        print(train_size+test_size)
-        print(len(loader.dataset))
-        train_data, val_data = torch.utils.data.random_split(loader.dataset,
-                                                        [train_size, test_size])
+        if val_data:
+            train_loader =  dir_loader_stack(data_dir, img_size, batch_size, 
+                                                    num_workers, True)
+            
+            val_loader = dir_loader_stack(val_data, img_size, batch_size, 
+                                                        num_workers,False)
+        else:
+            loader = dir_loader_stack(data_dir, img_size, batch_size,
+                                        num_workers, True)
+            train_size = int(0.8 * len(loader.dataset))
+            test_size = len(loader.dataset) - train_size
+            train_data, val_data = torch.utils.data.random_split(loader.dataset,
+                                                            [train_size, 
+                                                            test_size])
 
-        train_loader = torch.utils.data.DataLoader(train_data,
-                                                    batch_size=batch_size)
-        val_loader = torch.utils.data.DataLoader(val_data, 
-                                                    batch_size=batch_size)
+            train_loader = torch.utils.data.DataLoader(train_data,
+                                                        batch_size=batch_size)
+            val_loader = torch.utils.data.DataLoader(val_data, 
+                                                        batch_size=batch_size)
 
     loaders = {
         'train':train_loader,
         'valid':val_loader
     }
+    # print(len(loader.dataset))
   
     # verify images before training
     if verbose: 
