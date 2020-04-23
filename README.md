@@ -17,16 +17,19 @@ with the pytorch models predicted class.
 ## Loading Data
 
 Please visit the [Example Jupyter Notebook](example.ipynb) for examples of
-how to use the data loading functions.
-
+how to use the data loading functions. 
 Or read next section on how to use data with [train.py](train.py)
 
 pre-built functions exsist for loading image data in two different ways:
 
-**Directory** (Images in folders seperated by class)
+See the functions in [helpers/data_loader.py](helpers/data_loader.py)
+
+##### Directory (Images in folders seperated by class)
 
 Directory data loader expects a root directory path containing sub folders for 
-each class
+each class. 
+
+Example:
 
 ```
 root/dog/xxx.png
@@ -34,18 +37,18 @@ root/cat/xxx.png
 root/panda/xxx.png
 ```
 
-Example: if this root directory exsists in the same directory as this temple:
+if this root directory exsists in the same directory as this template:
 
 use the path: `root/`
 
-**CSV** 
+##### CSV 
 
 The CSV data loader expects a root directory and CSV file 
 containing two columns:
 
-`FilePath` reletive path to image from root directory
+1. relative path to image from root directory
 
-`Label` label (class) of image. Cat, Dog, Panda, etc.. 
+2. label (class) of image ( Cat, Dog, Panda, etc..) 
 
 Example:
 
@@ -65,19 +68,25 @@ labels.csv:
 | dog_xxx.png  | dog  |
 | panda_xxx.png | Panda   |
 
+if this root directory exsists in the same directory as this template:
+
 use the path: `root/`
 
 ##### Default transforms
 
-image_transforms
+By default the only transforms applied to images is resize, toTensor,
+and normalization based on imagenet data set 
+
+ See the image_transforms function 
+ in [helpers/data_loader.py](helpers/data_loader.py) to make changes
 
 ```
 img_transforms = transforms.Compose(
-                                [transforms.Resize(size=(img_size,img_size)),
-                                 transforms.ToTensor(),
-                                 transforms.Normalize(
-                                    mean=[0.485, 0.456, 0.406],
-                                    std=[0.229, 0.224, 0.225] )])
+        [transforms.Resize(size=(img_size,img_size)),
+                    transforms.ToTensor(),
+                    transforms.Normalize(
+                    mean=[0.485, 0.456, 0.406],
+                    std=[0.229, 0.224, 0.225] )])
 ```
 
 ## Training a Model
@@ -240,9 +249,10 @@ Specifically the docs on [creating a custom data loader](https://pytorch.org/tut
 
 ## Improvments
 - [x] accept command line args in train.py
-- [ ] Use Shap values or Captum for Model Interpretability
 - [x] Add validation data option to train.py
 - [x] accept command line args in test.py
 - [ ] create jupyter examples
-- [ ] Save model per epoch option
-- [ ] check for run folder
+- [ ] Use Shap values or Captum for Model Interpretability
+- [ ] Save model per epoch option (currently rewrites if loss decreases)
+- [ ] check for run folder 
+- [ ] image transform options
