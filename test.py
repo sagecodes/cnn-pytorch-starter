@@ -29,17 +29,21 @@ import click
 @click.option('--model_type', default='resnet50', help='Model Architecture \
                                                             for prediction')
 def test_model( device, weights, data_csv, data_dir, num_classes, model_type):
-    
-    # load model architecture
-    # Load pretrained resnet
+    '''
+    See README.md for details on using test.py
+
+    TODO: 
+        - better error handling if no model
+    '''
+    # load model architecture based on mode_type from args
+    # see README.md for more details on model
+    # see /models folder for model classes
     if model_type == 'resnet50':    
         model = Resnet50_pretrained(num_classes)
         model = model.model
-    # Load pretrained VGG
     elif model_type == 'vgg16':
         model = vgg16_pretrained(num_classes)
         model = model.model
-    # Load your own model from models/scratch.py
     elif model_type == 'scratch':
         model = Scratch_net(num_classes)
     else:
@@ -50,49 +54,54 @@ def test_model( device, weights, data_csv, data_dir, num_classes, model_type):
     # Load weights, set ready for prediction
     model = load_model(model, weights,True)
 
-    # run prediction
+    true_labels = []
+    preds = []
 
-    # Data
-
-    # CSV data
+    # if data labels are to be loaded from a CSV file
     if data_csv:
+        # Load test data from csv & log true labels
         test_df = pd.read_csv(data_csv)
         test_data_dir = data_dir
         paths = test_df["FilePath"]
         test_df["Label"] = pd.factorize(test_df["Label"])[0]
         true_labels = test_df["Label"].values.tolist()
-        preds = []
 
+        # run prediction on each image path
+        # add predicted value to preds
         for path in paths:
             image = os.path.join(test_data_dir, path)
             print(image)
             preds.append(predict(model,image,device))
-    else:
-        # from directory
-        images = images_from_dir(data_dir)
-        print(images.class_to_idx)
-      
-        true_labels = []
-        preds = []
 
+    # else load data from directory if no CSV labels given
+    else:
+        # load images with data loader
+        images = images_from_dir(data_dir)
+        # print image classes
+        print(images.class_to_idx)
+
+        # run prediction on each image path
+        # add predicted value to preds and true labels to true_labels
         for image, label in images:
-            # image = os.path.join(test_data_dir, path)
-            # print(image)
             true_labels.append(label)
             preds.append(predict(model,image,device))
 
+    # print predicted values
     print('\n---------------------------------------------')
     print('predicted values:\n')
     print(preds)
+    # print actual true values
     print('\n---------------------------------------------')
     print('True Values\n')
     print(true_labels)
 
+    # print confusion matrix
     cm = confusion_matrix(true_labels, preds)
     print('\n---------------------------------------------')
     print('Confusion Matrix:\n')
     print(cm)
-  
+    
+    # print classification report
     print('\n---------------------------------------------')
     print('Classification Report:\n')
     print(classification_report(true_labels, preds))
