@@ -2,15 +2,16 @@
 
 ## Summary
 
-I had been building out Convolutional Neural Networks to solve various research 
-problems or as fun personal projects. After doing many of them I found myself 
-reproducing a large amount of the same code so I thought I should make a
-template for myself. I wanted something that I could grab and start easily using
-new datasets and architectures. I also didn't want it to live in a giant
-jupyter notebook. So I broke out everything into model and data loader helper
-functions. 
+After building out many Convolutional Neural Networks (CNNs) for several
+research projects I decided to make a template to make getting started easy
+while still having access to all the functions for per project customization
+if needed.   
 
-This repo also contains a bare bones flask app that returns json response
+This template tackles most of the formats I have needed to load data and models
+so far (See next sections). If it doesn't cover your use case the built functions
+should provide a good starting point.
+
+This template also contains a bare bones flask app that returns json response
 with the pytorch models predicted class.
 
 ## Loading Data
@@ -20,13 +21,64 @@ how to use the data loading functions.
 
 Or read next section on how to use data with [train.py](train.py)
 
-Directory (Images in folders seperated by class)
+pre-built functions exsist for loading image data in two different ways:
 
-CSV 
+**Directory** (Images in folders seperated by class)
 
-See examples in:
-- animal_load_train_csv.py
+Directory data loader expects a root directory path containing sub folders for 
+each class
 
+```
+root/dog/xxx.png
+root/cat/xxx.png
+root/panda/xxx.png
+```
+
+Example: if this root directory exsists in the same directory as this temple:
+
+use the path: `root/`
+
+**CSV** 
+
+The CSV data loader expects a root directory and CSV file 
+containing two columns:
+
+`FilePath` reletive path to image from root directory
+
+`Label` label (class) of image. Cat, Dog, Panda, etc.. 
+
+Example:
+
+images within root directory
+
+```
+root/dog_xxx.png
+root/cat_xxx.png
+root/panda_xxx.png
+```
+
+labels.csv: 
+
+| FilePath  |  Label |
+|---|---|
+| cat_xxx.png |  cat |
+| dog_xxx.png  | dog  |
+| panda_xxx.png | Panda   |
+
+use the path: `root/`
+
+##### Default transforms
+
+image_transforms
+
+```
+img_transforms = transforms.Compose(
+                                [transforms.Resize(size=(img_size,img_size)),
+                                 transforms.ToTensor(),
+                                 transforms.Normalize(
+                                    mean=[0.485, 0.456, 0.406],
+                                    std=[0.229, 0.224, 0.225] )])
+```
 
 ## Training a Model
 
@@ -55,6 +107,16 @@ python train.py --verbose=True --device=cuda --num_classes=3 --n_epochs=30
 --num_workers=0 --data_dir=../datasets/animals/
 ```
 
+CSV Validation data 
+expected validation dataset is in same root dir
+
+```
+python train.py --verbose=True --device=cuda --num_classes=3 --n_epochs=30 
+--learn_rate=0.001 --save_path=trained_models/test_train_tmp
+--csv_labels=../datasets/animals/labels.csv --img_size=244 --batch_size=32 
+--num_workers=0 --data_dir=../datasets/animals/ --val_data=../datasets/test_animals/test_labels.csv
+```
+
 ##### Example Directory Labels:
 
 ```
@@ -62,6 +124,16 @@ python train.py --verbose=True --device=cuda --num_classes=3 --n_epochs=30
 --learn_rate=0.001 --save_path=trained_models/test_train_tmp --img_size=244 
 --batch_size=32 --num_workers=0 --data_dir=../datasets/animals/
 ```
+
+directory validation
+```
+python train.py --device=cuda --num_classes=133 --n_epochs=30 
+--learn_rate=0.001 --save_path=trained_models/test_train_tmp 
+--img_size=244 --batch_size=32 --num_workers=0 
+--data_dir=../datasets/dog_breeds/train --model_type=vgg16 
+--val_data=../datasets/dog_breeds/valid
+```
+
 Arguments for python train.py 
 
 `--verbose=True` 
@@ -97,6 +169,12 @@ python test.py --device=cuda --weights=trained_models/test_train.pt
 --data_csv=../datasets/test_animals/test_labels.csv
 --data_dir=../datasets/test_animals/ --num_classes=3
 ```
+csv
+python test.py --device=cuda --weights=trained_models/test_train_tmp.pt --data_csv=../datasets/test_animals/test_labels.csv --data_dir=../datasets/test_animals/ --num_classes=3 --model_type=scratch
+
+directory 
+python test.py --device=cuda --weights=trained_models/test_train_tmp.pt --data_dir=../datasets/test_animals/ --num_classes=3 --model_type=vgg16
+
 
 
 ## Run Flask Server
@@ -163,6 +241,8 @@ Specifically the docs on [creating a custom data loader](https://pytorch.org/tut
 ## Improvments
 - [x] accept command line args in train.py
 - [ ] Use Shap values or Captum for Model Interpretability
-- [ ] Add validation data option to train.py
-- [ ] accept command line args in test.py
-- [ ] create extensive jupyter examples
+- [x] Add validation data option to train.py
+- [x] accept command line args in test.py
+- [ ] create jupyter examples
+- [ ] Save model per epoch option
+- [ ] check for run folder
