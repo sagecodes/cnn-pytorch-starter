@@ -127,7 +127,6 @@ def load_train(verbose, device, num_classes, n_epochs, learn_rate, save_path,
         print("\nTraining images")
         image_plot(train_loader)
 
-    if verbose: 
         # validation data sample
         print("\nValidation images")
         image_plot(val_loader)
@@ -163,7 +162,8 @@ def load_train(verbose, device, num_classes, n_epochs, learn_rate, save_path,
     
 
     # print model to terminal
-    print(train_model)
+    if verbose:
+        print(train_model)
 
     # Train 
     H = train(train_model, n_epochs, loaders, optimizer,
