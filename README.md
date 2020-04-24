@@ -16,7 +16,7 @@ with the pytorch models predicted class.
 
 ## Loading Data
 
-Please visit the [Example Jupyter Notebook](example.ipynb) for examples of
+Visit the [Example Jupyter Notebook](example.ipynb) for examples of
 how to use the data loading functions. 
 Or read next section on how to use data with [train.py](train.py)
 
@@ -94,7 +94,7 @@ img_transforms = transforms.Compose(
 
 ## Training a Model
 
-Please visit the [Example Jupyter Notebook](example.ipynb) for examples of
+Visit the [Example Jupyter Notebook](example.ipynb) for examples of
 how to use the individual pre-built training functions.
 
 *note:* By default the template is set to use a pre-trained resnet50, VGG, or a
@@ -122,17 +122,17 @@ many data input options.
 - Validation dataset path. If none provided 20% of training data
 will be randomly taken for validation. If CSV label same roor directory is
 expected.
-- default=None
+- default=`None`
 - Example: `--val_data=../datasets/dog_breeds/valid`
 
 ##### --save_path
 - Path to save model and training history. folder and file name
 for wights and file name expacted. Extensions `.pt` & `.csv` wil be added.
-- default=None
+- default=`None`
 - example: `--save_path=trained_models/dogbreeds_vgg`
 
 ##### --csv_labels
-- Path to labels if they are in a CSV.
+- Path to trainig data & labels if they are in a CSV.
 Expected to contain columns `FilePath` & `Label`
 - default=`None`
 - example: `--csv_labels=../datasets/animals/labels.csv `
@@ -145,7 +145,7 @@ Expected to contain columns `FilePath` & `Label`
 
 ##### --num_classes
 - Number of classes for model to predict
-- default=`1`
+- default=`2`
 - example: `--num_classes=3`
 
 ##### --n_epochs
@@ -165,32 +165,32 @@ Expected to contain columns `FilePath` & `Label`
 
 ##### --batch_size
 - batch size for training model
-- default=8
+- default=`8`
 - Example: `--batch_size=32 `
 
 ##### --verbose
 - Option for a more verbose output while loading the data and models
 Most notably this will show a preview of images from the training and validation
 sets. Good for verifying your data is what you expect. 
-- default=False
+- default=`False`
 - Example: `--verbose=True`
 
 ##### --device
 - Device for running model computations on. see [CUDA semantics
 in pytorch](https://pytorch.org/docs/stable/notes/cuda.html)
-- default='cpu'
+- default=`'cpu'`
 - Example: `--device=cuda`
 
 ##### --num_workers 
 - number of workers for data loaders. [Guidelines](https://discuss.pytorch.org/t/guidelines-for-assigning-num-workers-to-dataloader/813) 
-- default=0
+- default=`0`
 - Example: `num_workers=2`
 
+#### Common examples:
 
+##### Train with CSV Labels 
 
-##### Example: CSV Labels 
-
-Example loading data from a csv file with NO validation set
+> Example loading data from a csv file with NO validation set
 
 ```
 python train.py --verbose=True --device=cuda --num_classes=3 --n_epochs=30 
@@ -199,8 +199,8 @@ python train.py --verbose=True --device=cuda --num_classes=3 --n_epochs=30
 --num_workers=0 --data_dir=../datasets/animals/
 ```
 
-Example loading data from a csv file WITH validation set
-expected validation dataset is in same root dir as training dataset
+> Example loading data from a csv file WITH validation set.
+Expected validation dataset is in same root dir as training dataset
 
 ```
 python train.py --verbose=True --device=cuda --num_classes=3 --n_epochs=30 
@@ -210,9 +210,10 @@ python train.py --verbose=True --device=cuda --num_classes=3 --n_epochs=30
 --val_data=../datasets/test_animals/test_labels.csv
 ```
 
-##### Example Directory Labels:
 
-Example loading data from a directory with NO validation set
+##### Training with Directory Labels:
+
+> Example loading data from a directory with NO validation set
 
 ```
 python train.py --verbose=True --device=cuda --num_classes=3 --n_epochs=30 
@@ -220,7 +221,7 @@ python train.py --verbose=True --device=cuda --num_classes=3 --n_epochs=30
 --batch_size=32 --num_workers=0 --data_dir=../datasets/animals/
 ```
 
-Example loading data from a directory WITH validation set
+> Example loading data from a directory WITH validation set
 
 ```
 python train.py --device=cuda --num_classes=133 --n_epochs=30 
@@ -230,24 +231,68 @@ python train.py --device=cuda --num_classes=133 --n_epochs=30
 --val_data=../datasets/dog_breeds/valid
 ```
 
-## Using a Model to Predict Classes
+## Predict Classes with models
+
+Visit the [Example Jupyter Notebook](example.ipynb) for examples of
+how to use the individual pre-built training functions. 
+
+
+### Using test.py:
+
+[test.py](test.py) is an option to test a model directly from your terminal by
+passing in arguments. Both testing from directory or CSV labels are options.
 
 Run test.py
 
-Example:
+##### --model_type
+- CNN model architecture to load weights into
+- Options: `vgg16`, `scratch`, `resnet50`
+- default=`'resnet50'`
+- example: `--model_type=vgg16`
 
-```
-python test.py --device=cuda --weights=trained_models/test_train.pt 
---data_csv=../datasets/test_animals/test_labels.csv
---data_dir=../datasets/test_animals/ --num_classes=3
-```
+##### --weights
+- Trained weights to use for prediction. Weights must match model type.
+- default=`None`
+- Example: `trained_models/test_train.pt`
+
+##### --data_csv
+- Path to data & labels if they are in a CSV.
+- default=`None`
+- Example: `--data_csv=../datasets/test_animals/test_labels.csv`
+
+##### --data_dir
+- Root directory for dataset. **Required** for all formats of data sets
+- default=`None`
+- Example: `../datasets/test_animals/`
+
+##### --num_classes
+- Number of classes the model was trained to predict
+- default=`2`
+- example: `--num_classes=3`
+
+##### --device
+- Device for running model computations on. see [CUDA semantics
+in pytorch](https://pytorch.org/docs/stable/notes/cuda.html)
+- default=`'cpu'`
+- Example: `--device=cuda`
+
+
+#### Common examples:
+
+##### prediction with CSV labeled data 
 csv
-python test.py --device=cuda --weights=trained_models/test_train_tmp.pt --data_csv=../datasets/test_animals/test_labels.csv --data_dir=../datasets/test_animals/ --num_classes=3 --model_type=scratch
+```
+python test.py --device=cuda --weights=trained_models/test_train.pt
+--data_csv=../datasets/test_animals/test_labels.csv
+--data_dir=../datasets/test_animals/ --num_classes=3 --model_type=vgg16
+```
 
+##### prediction with directory labeled data 
 directory 
-python test.py --device=cuda --weights=trained_models/test_train_tmp.pt --data_dir=../datasets/test_animals/ --num_classes=3 --model_type=vgg16
-
-
+```
+python test.py --device=cuda --weights=trained_models/test_train_tmp.pt
+--data_dir=../datasets/test_animals/ --num_classes=3 --model_type=vgg16
+```
 
 ## Run Flask Server
 
@@ -255,7 +300,7 @@ This is a very bare bones fask set up to help get you started hosting your model
 You can upload an image and get back a response with the prediction index.
 
 The pytorch docs have a good flask example 
-[here](https://pytorch.org/tutorials/intermediate/flask_rest_api_tutorial.html)
+[here](https://pytorch.org/tutorials/intermediate/flask_rest_api_tutorial.html).
 
 I'll be building a more robust example in a different repo soon, but hopefully
 this will be enough to get you started!
@@ -304,7 +349,7 @@ The versions of libraries I used / tested on
 Inspiration for building this came while I was doing Udacity's 
 [Deep Learning Nanodegree](https://www.udacity.com/course/deep-learning-nanodegree--nd101) 
 and working on the Dog Breed classification project.
-You can find their prompt [here](https://github.com/udacity/deep-learning-v2-pytorch/tree/master/project-dog-classification). This goes beyond the scope they covered but I want to thank them for such great intro to Pytorch.
+You can find their prompt [here](https://github.com/udacity/deep-learning-v2-pytorch/tree/master/project-dog-classification). This goes beyond the scope they covered but I want to thank them for a great intro to Pytorch.
 
 And of course the offcial [Pyorch](https://pytorch.org/) docs were handy. 
 Specifically the docs on [creating a custom data loader](https://pytorch.org/tutorials/beginner/data_loading_tutorial.html), and running a model on [flask](https://pytorch.org/tutorials/intermediate/flask_rest_api_tutorial.html) 
