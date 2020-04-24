@@ -75,10 +75,13 @@ use the path: `root/`
 ##### Default transforms
 
 By default the only transforms applied to images is resize, toTensor,
-and normalization based on imagenet data set 
+and normalization based on imagenet data set.
 
  See the image_transforms function 
  in [helpers/data_loader.py](helpers/data_loader.py) to make changes
+
+ read about pytorch transforms 
+ [here](https://pytorch.org/docs/stable/torchvision/transforms.html)
 
 ```
 img_transforms = transforms.Compose(
@@ -92,80 +95,127 @@ img_transforms = transforms.Compose(
 ## Training a Model
 
 Please visit the [Example Jupyter Notebook](example.ipynb) for examples of
-how to use the training functions.
+how to use the individual pre-built training functions.
 
-*note:* Currently train.py is set to use a pre-trained resnet50, VGG, or a
-model programmed from scratch. reference the [models folder](/models) for how
-a model is built. It is fairly straight foward to add more pre-built models. 
-Or experiement with your own by writing it in 
-[models folder](/models/scratch.py) 
+*note:* By default the template is set to use a pre-trained resnet50, VGG, or a
+model programmed from scratch. Reference the [models folder](/models) for how
+a model is built. It is fairly straight foward to add more pre-built models
+and even add them as options to train.py. Experiement with your own by
+writing it in [/models/scratch.py](/models/scratch.py) 
 
-[train.py](train.py) is an option to train directly from your terminal by
-passing in arguments from the command line. read instructions below:
+All layers but output in Resnet and VGG are frozen by default
 
 ### Using train.py:
 
-[train.py](train.py) can be run from terminal and passed commands arguments
+[train.py](train.py) is an option to train directly from your terminal by
+passing in arguments. The argument options are very robust accounting for
+many data input options.
+
+#### Argument Options for python train.py 
+
+`--data_dir` | Root directory for dataset. **Required** 
+for all formats of data sets
+- default=`None`
+- Example: `--data_dir=../datasets/animals/`
+
+`--val_data` | Validation dataset path. If none provided 20% of training data
+will be randomly taken for validation. If CSV label same roor directory is
+expected.
+- default=None
+- Example: `--val_data=../datasets/dog_breeds/valid`
+
+`--save_path` | Path to save model and training history. folder and file name
+for wights and file name expacted. Extensions `.pt` & `.csv` wil be added.
+- default=None
+- example: `--save_path=trained_models/dogbreeds_vgg`
+
+`--csv_labels` | Path to labels if they are in a CSV.
+Expected to contain columns `FilePath` & `Label`
+- default=`None`
+- example: `--csv_labels=../datasets/animals/labels.csv `
+
+`--model_type` | 
+CNN model architecture to train with data
+- Options: `vgg16`, `scratch`, `resnet50`
+- default=`'resnet50'`
+- example: `--model_type=vgg16`
+
+`--num_classes` | Number of classes for model to predict
+- default=`1`
+- example: `--num_classes=3`
+
+`--n_epochs` | Number of epochs to train model weights for
+- default=`3`
+- example: `--n_epochs=30`
+
+`--learn_rate` | Learning rate for training model weights
+- default=`0.001`
+- example: `--learn_rate=0.0005`
+
+`--img_size` | Dimensions to resize images for training.
+- default=`244`
+- Example: `--img_size=64`
+
+`--batch_size` | batch size for training model
+- default=8
+- Example: `--batch_size=32 `
+
+`--verbose` | Option for a more verbose output while loading the data and models
+Most notably this will show a preview of images from the training and validation
+sets. Good for verifying your data is what you expect. 
+- default=False
+- Example: `--verbose=True`
+
+`--device` | Device for running model computations on. see [CUDA semantics
+in pytorch](https://pytorch.org/docs/stable/notes/cuda.html)
+- default='cpu'
+- Example: `--device=cuda`
+
+`--num_workers` | number of workers for data loaders. [Guidelines](https://discuss.pytorch.org/t/guidelines-for-assigning-num-workers-to-dataloader/813) 
+- default=0
+- Example: `num_workers=2`
 
 ##### Example: CSV Labels 
 
+Example loading data from a csv file with NO validation set
+
 ```
 python train.py --verbose=True --device=cuda --num_classes=3 --n_epochs=30 
---learn_rate=0.001 --save_path=trained_models/test_train_tmp
+--learn_rate=0.001 --save_path=trained_models/test_train
 --csv_labels=../datasets/animals/labels.csv --img_size=244 --batch_size=32 
 --num_workers=0 --data_dir=../datasets/animals/
 ```
 
-CSV Validation data 
-expected validation dataset is in same root dir
+Example loading data from a csv file WITH validation set
+expected validation dataset is in same root dir as training dataset
 
 ```
 python train.py --verbose=True --device=cuda --num_classes=3 --n_epochs=30 
---learn_rate=0.001 --save_path=trained_models/test_train_tmp
+--learn_rate=0.001 --save_path=trained_models/test_train
 --csv_labels=../datasets/animals/labels.csv --img_size=244 --batch_size=32 
---num_workers=0 --data_dir=../datasets/animals/ --val_data=../datasets/test_animals/test_labels.csv
+--num_workers=0 --data_dir=../datasets/animals/ 
+--val_data=../datasets/test_animals/test_labels.csv
 ```
 
 ##### Example Directory Labels:
 
+Example loading data from a directory with NO validation set
+
 ```
 python train.py --verbose=True --device=cuda --num_classes=3 --n_epochs=30 
---learn_rate=0.001 --save_path=trained_models/test_train_tmp --img_size=244 
+--learn_rate=0.001 --save_path=trained_models/test_train --img_size=244 
 --batch_size=32 --num_workers=0 --data_dir=../datasets/animals/
 ```
 
-directory validation
+Example loading data from a directory WITH validation set
+
 ```
 python train.py --device=cuda --num_classes=133 --n_epochs=30 
---learn_rate=0.001 --save_path=trained_models/test_train_tmp 
+--learn_rate=0.001 --save_path=trained_models/test_train 
 --img_size=244 --batch_size=32 --num_workers=0 
 --data_dir=../datasets/dog_breeds/train --model_type=vgg16 
 --val_data=../datasets/dog_breeds/valid
 ```
-
-Arguments for python train.py 
-
-`--verbose=True` 
-
-`--device=cuda`
-
-`--num_classes=3`
-
-`--n_epochs=30`
-
-`--learn_rate=0.001`
-
-`--save_path=trained_models/test_train_tmp`
-
- `--csv_labels=../datasets/animals/labels.csv`
-
- `--img_size=244`
-
- `--batch_size=32`
-
- `--num_workers=0` 
-
- `--data_dir=../datasets/animals/`
 
 ## Using a Model to Predict Classes
 
@@ -251,8 +301,11 @@ Specifically the docs on [creating a custom data loader](https://pytorch.org/tut
 - [x] accept command line args in train.py
 - [x] Add validation data option to train.py
 - [x] accept command line args in test.py
+- [ ] weights to continue training
+- [ ] Model layer freeze option
 - [ ] create jupyter examples
 - [ ] Use Shap values or Captum for Model Interpretability
 - [ ] Save model per epoch option (currently rewrites if loss decreases)
 - [ ] check for run folder 
 - [ ] image transform options
+
