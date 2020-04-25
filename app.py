@@ -21,7 +21,10 @@ from model_helpers import predict
 
 # Model for prediction
 res_model = Resnet50_pretrained(3)
-res_model = load_model(res_model, 'trained_models/test_train.pt',True)
+# res_model = load_model(res_model, 'trained_models/test_train.pt',True)
+model = res_model.model
+ # Load weights, set ready for prediction
+model = load_model(model, 'trained_models/test_train.pt',True)
 
 # Temp device
 device = "cuda"
@@ -44,7 +47,7 @@ def prediction():
         # convert that to bytes
         # img_bytes = file.read()
         # class_id, class_name = get_prediction(image_bytes=img_bytes)
-        prediction = predict(res_model.model, file, device)
+        prediction = predict(res_model.model, file, device, True)
         return jsonify({'class_id': prediction})
         
     return '''

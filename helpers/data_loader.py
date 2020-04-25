@@ -266,6 +266,8 @@ def val_train_split(df, split, verbose=False, seed=42, shuffle=True):
     returns:
     - training & validation data frames
 
+    TODO:
+    - stratify data 
     """
     
     # set random seed

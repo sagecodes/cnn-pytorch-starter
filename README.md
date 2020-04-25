@@ -135,7 +135,7 @@ for wights and file name expacted. Extensions `.pt` & `.csv` wil be added.
 - Path to trainig data & labels if they are in a CSV.
 Expected to contain columns `FilePath` & `Label`
 - default=`None`
-- example: `--csv_labels=../datasets/animals/labels.csv `
+- example: `--csv_labels=../datasets/animals/labels.csv`
 
 ##### --model_type 
 - CNN model architecture to train with data
@@ -280,7 +280,7 @@ in pytorch](https://pytorch.org/docs/stable/notes/cuda.html)
 #### Common examples:
 
 ##### prediction with CSV labeled data 
-csv
+
 ```
 python test.py --device=cuda --weights=trained_models/test_train.pt
 --data_csv=../datasets/test_animals/test_labels.csv
@@ -288,7 +288,7 @@ python test.py --device=cuda --weights=trained_models/test_train.pt
 ```
 
 ##### prediction with directory labeled data 
-directory 
+ 
 ```
 python test.py --device=cuda --weights=trained_models/test_train_tmp.pt
 --data_dir=../datasets/test_animals/ --num_classes=3 --model_type=vgg16

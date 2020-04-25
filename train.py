@@ -38,7 +38,7 @@ import torch
 @click.command()
 @click.option('--verbose', default=False, help='Verbose output')
 @click.option('--device', default='cpu', help='compute on cpu or cuda')
-@click.option('--num_classes', default=1, help='number of classes to predict')
+@click.option('--num_classes', default=2, help='number of classes to predict')
 @click.option('--n_epochs', default=3, help='number of epochs')
 @click.option('--learn_rate', default=0.001, help='learning rate')
 @click.option('--save_path', default=None, help='save path for model \
@@ -130,7 +130,7 @@ def load_train(verbose, device, num_classes, n_epochs, learn_rate, save_path,
         print("\nValidation images")
         image_plot(val_loader)
 
-    # Load model, Set criterion & set optimizer based on args
+    # Load model, Set criterion & set optimizer based on mode_type from args
     # see README.md for more details on model
     # see /models folder for model classes
     if model_type == 'resnet50':
