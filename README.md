@@ -342,6 +342,7 @@ The versions of libraries I used / tested on
 - torchvision `0.4.2`
 - jupyter `1.0.0` (optional: only if you want to load in notebook)
 - click `7.1.1`
+- tqdm `4.41.1`
 
 
 ## Acknowledgements
